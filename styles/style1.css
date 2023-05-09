@@ -1,5 +1,5 @@
 * {
-    margin: 0 auto;
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
@@ -42,6 +42,7 @@ nav {
 
     padding: 20px 50px;
 
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -247,6 +248,7 @@ div.grid-produto div.description {
     width: 90px;
     height: 90px;
     color: white;
+    margin: 0 auto;
     
 }
 
@@ -311,26 +313,21 @@ ul li {
     margin-top: 2%;
 }
 
-button{
-    background-color: #3E5BB2;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
+.perfil button{
     font-weight: bold;
     font-size: 1.2rem;
     width: 40%;
 }
 
-input{
+.perfil input{
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     width: 100%;
 }
 
-label {
+.perfil label {
     font-weight: bold;
     margin-bottom: 5px;
 }
+
