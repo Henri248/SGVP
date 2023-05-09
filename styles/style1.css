@@ -1,5 +1,5 @@
 * {
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     box-sizing: border-box;
 }
@@ -42,7 +42,6 @@ nav {
 
     padding: 20px 50px;
 
-    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -221,3 +220,117 @@ div.grid-produto div.description {
     grid-row: 2 / 3;
 }
 
+.perfil {
+    height: auto;
+    width: 80%;
+    margin-top: 2%;
+}
+
+.perfil-1 {
+    height: 550px;
+    width: 25%;
+    background-color: #3E5BB2;
+    float: left;
+    padding: 10px;
+    border-radius: 2%;
+    box-shadow: -2px -1px 8px -4px #888888;
+}
+
+.avatar {
+    background: #fff;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    border-radius: 100%;
+    width: 90px;
+    height: 90px;
+    color: white;
+    
+}
+
+.perfil-2 {
+    height: 100%;
+    width: 72%;
+    float: left;
+    margin-left: 3%;
+}
+
+.items-perfil-2 {
+    background: #fff;
+    margin-top: 0px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: -2px -1px 10px -4px #888888;
+}
+
+.items-perfil-2:last-child {
+    background: #fff;
+    margin-top: 20px;
+}
+
+.items-perfil {
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+    color: #fff;
+    text-transform: none;
+    font-size: 20px;
+}
+
+.item-perfil:first-child {
+    font-size: 24px;
+    color: #EC9A29;
+    font-weight: bold;
+
+}
+
+.items-perfil-1{
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.items-perfil ul li {
+    margin-top: 20px;
+    color: #fff;
+    text-decoration: none;
+}
+
+ul li {
+    text-decoration: none;
+}
+
+.info{
+    margin-top: 20px;
+}
+
+.info p{
+    margin-top: 2%;
+}
+
+button{
+    background-color: #3E5BB2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.2rem;
+    width: 40%;
+}
+
+input{
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
