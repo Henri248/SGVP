@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="./scripts/script.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="./styles/style1.css">
+
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <nav>
+        <h1>SGVP</h1>
+        <ul>
+            <li><a href="./produtos.html">Produtos</a></li>
+            <li><a href="./vendas.html">Vendas</a></li>
+            <li><a href="./vendedores.html">Vendedores</a></li>
+        </ul>
+
+        <span>
+            <a href=".perfil/html">
+                <img src="./public/images/icons/account_circle_white_24dp.svg" alt="">
+                <p>Usuário</p>
+            </a>
+
+            <a href="./dashboard.html">
+                <img src="./public/images/icons/dashboard_white_24dp.svg" alt="">
+                <p>Dashboard</p>
+            </a>
+
+            <a href="./login.html">
+                <img src="./public/images/icons/logout_white_24dp.svg" alt="">
+                <p>Logout</p>
+            </a>
+        </span>
+    </nav>
+
+    <div class="dashboard container">
+        <span id="vendas"><div class="top">Vendas no Dia <p>1000</p></div></span>
+        <span id="lucro"><div class="top">Lucro do Dia <p>$ 1000,00</p></div></span>
+        <span id="lucro2"><div class="top">Lucro do Total <p>$ 20000,50</p></div></span>
+        <span id="chart1"><div id="chart_div1"></div></span>  
+        <span id="chart2"><div id="chart_div2"></div></span>
+    </div>
+</body>
+
+</html>
