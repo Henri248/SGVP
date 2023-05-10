@@ -1,15 +1,14 @@
 :root {
-    --fundo: #f2f2f2;
-    --fundo-secundario: #fff;
-    --texto-padrao: #000;
-    --texto-fundo-azul: #fff;
-    --cor-primaria: #3E5BB2;
-    --cor-input: #fff;
-    --borda: #ddd;
+    --fundo: #303030;
+    --fundo-secundario: #3a3a3a;
+    --texto-padrao: #EEE;
+    --texto-fundo-azul: #EEE;
+    --cor-primaria: #2f4588;
+    --cor-input: #414141;
+    --borda: #606060;
 }
 
 * {
-    
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -49,8 +48,6 @@ button {
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
 
 }
-
-
 
 nav {
     background-color: var(--cor-primaria);
