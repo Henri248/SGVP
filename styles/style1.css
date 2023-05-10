@@ -83,7 +83,7 @@ div.container {
 }
 
 div.table {
-    width: 90%;
+    width: 100%;
     max-width: 900px;
 }
 
@@ -123,7 +123,6 @@ th, td {
 }
 
 .crud {
-    text-align: center;
     width: 15%;
 }
 
@@ -155,10 +154,21 @@ div.form form span label {
     margin-bottom: 5px;
 }
 
-div.form form span input {
+div.form form span input, div.form form span select {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
+}
+
+div.form form span.produtos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+div.form form span.produtos input {
+    width: 20%;
 }
 
 div.form form span#buttons {
@@ -219,6 +229,26 @@ div.grid-produto div.img img {
 div.grid-produto div.description {
     grid-column: 1 / 3;
     grid-row: 2 / 3;
+}
+
+div.venda {
+    width: 90%;
+    max-width: 400px;
+}
+
+div.venda div.venda-block {
+    background-color: #fff;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    border-radius: 5px;
+
+    font-size: 1.2rem;
+    margin: 20px 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
 }
 
 .perfil {
