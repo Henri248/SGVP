@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criar produto</title>
+    <title>Editar venda</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,30 +42,41 @@
     </nav>
 
     <div class="form container">
-        <h1><a href="./produtos.html"><button><img src="./public/images/icons/arrow_back_white_24dp.svg" alt=""></button></a>  Novo produto</h1>
+        <h1><a href="./vendas.html"><button><img src="./public/images/icons/arrow_back_white_24dp.svg" alt=""></button></a>  Editar venda 00001</h1>
         <form action="" method="post" enctype="multipart/form-data">
             <span>
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
+                <select id="vendedor" name="vendedor">
+                <option value="a">00001 - Vendedor A</option>
+                <option value="b">00002 - Vendedor B</option>
+                <option value="c">00003 - Vendedor C</option>
+            </select>
             </span>
             <span>
-            <label for="estoque">Estoque:</label>
-            <input type="number" id="estoque" name="estoque" required>
+            <label for="produtos">Produtos:</label>
+                <span class="produtos">
+                    <select id="produto" name="produto">
+                        <option value="a">00001 - Produto A - R$ 10,00</option>
+                        <option value="b">00002 - Produto B - R$ 20,00</option>
+                        <option value="c">00003 - Produto C - R$ 30,00</option>
+                    </select>
+                    <input type="number" id="quantidade" name="quantidade" value="5" required>
+                    <a href="#"><img src="./public/images/icons/clear_black_24dp.svg" alt=""></a>
+                </span>
+                <a href="#" style="text-align: center; margin-top: 5px;"><img src="./public/images/icons/add_circle_outline_blue_24dp.svg" alt=""></a>
             </span>
             <span>
-            <label for="valor">Valor:</label>
-            <input type="number" step="0.01" id="valor" name="valor" required>
+            <label for="valor">Valor total:</label>
+            <input type="number" value="50.00" id="valor" name="valor" disabled required>
             </span>
-            <span>
-            <label for="imagem">Imagem:</label>
-            <input type="file" id="imagem" name="imagem" accept="image/*">
+            <span id="buttons">
+            <button id="delete" type="submit">Excluir</button>
+            <button type="submit">Atualizar</button>
             </span>
-            <span>
-            <label for="descricao">Descrição:</label>
-            <textarea id="descricao" name="descricao" rows="5" cols="40"></textarea>
-            </span>
-            <button type="submit">Adicionar produto</button>
+            
           </form>
     </div>
+    
 </body>
+
+
 </html>
