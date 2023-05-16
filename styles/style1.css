@@ -112,6 +112,10 @@ nav span {
 
 }
 
+nav button {
+    background-color: #000;
+}
+
 nav span a {
     display: flex;
     font-size: 1.2rem;
