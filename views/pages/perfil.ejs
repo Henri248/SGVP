@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style1.css">
+    <script src="/js/style.js"></script>
+
+    <title>Perfil</title>
+</head>
+
+<body>
+    <%- include('../partials/header'); -%>
+    
+    <div class="perfil container">
+        <div class="perfil-1">
+            <div class="items-perfil-1">
+                <div class="avatar"><img style="margin: 0 auto;" src="./public/images/icons/avatar.svg" alt=""></div>
+                <div class="items-perfil">
+                    <ul>
+                        <li class="item-perfil">
+                            Pedro Silva
+                        </li>
+                        <li class="item-perfil">
+                            Vendas
+                        </li>
+                        <li class="item-perfil">
+                            Produtos
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="perfil-2">
+            <div class="items-perfil-2 item-1">
+                <h2>Sobre</h2>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="info">
+                        <p><label>Nome Completo <input type="text" value="Pedro"></label></p>
+                        <p><label>Email <input type="email" value="pedro123@gmail.com"></label></p>
+                        <p><label>Endereço <input type="text" value="Pedro"></label></p>
+                        <p>
+                            <span id="buttons">
+                                <button type="submit">Atualizar</button>
+                            </span>
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <div class="items-perfil-2 item-2">
+                <h2>Vendas</h2>
+                <div class="info">
+                    <p><label>Número de Vendas por Dia: </label>100</p>
+                    <p></p><label>Número de Vendas por Mês: </label>2000
+5                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

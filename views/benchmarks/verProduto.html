@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver produto</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        
+    <link rel="stylesheet" href="./styles/style1.css">
+    <script src="./scripts/style.js"></script>
+
+</head>
+
+<body>
+    <nav>
+        <p id="logo">SGVP</p>
+        <ul>
+            <li><a href="./produtos.html">Produtos</a></li>
+            <li><a href="./vendas.html">Vendas</a></li>
+            <li><a href="./vendedores.html">Vendedores</a></li>
+        </ul>
+
+        <span>
+            <a href="./perfil.html">
+                <img src="./public/images/icons/account_circle_white_24dp.svg" alt="">
+                Usuário
+            </a>
+
+            <a href="./dashboard.html">
+                <img src="./public/images/icons/dashboard_white_24dp.svg" alt="">
+                Dashboard
+            </a>
+
+            <a href="./login.html">
+                <img src="./public/images/icons/logout_white_24dp.svg" alt="">
+                Logout
+            </a>
+        </span>
+
+        <button onclick="swapLightAndDarkMode()">
+            Dark
+        </button>
+    </nav>
+    <div class="details container">
+        <h1><a href="./produtos.html" class="button"><img src="./public/images/icons/arrow_back_white_24dp.svg" alt=""></a>  Produto A  <a href="./editarProduto.html"><img src="./public/images/icons/edit_black_24dp.svg" alt=""></a><a href="#"><img src="./public/images/icons/clear_black_24dp.svg" alt=""></a></h1>
+        <div class="grid-produto">
+            <div class="img">
+                <img src="./public/images/produtos/produtoA.png" alt="">
+            </div>
+            <div class="info">
+                <p><b>ID:</b> 00001</p>
+                <p><b>Nome:</b> Produto A</p>
+                <p><b>Preço:</b> R$ 10,00</p>
+                <p><b>Estoque:</b> 10</p>
+            </div>
+            <div class="description">
+                <p><b>Descrição:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
