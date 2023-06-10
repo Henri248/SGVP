@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver venda</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        
+    <link rel="stylesheet" href="/css/style1.css">
+    <script src="/js/style.js"></script>
+    
+</head>
+
+<body>
+    <%- include('../../partials/header'); -%>
+
+    <div class="container venda">
+        <h1><a href="./vendas.html" class="button"><img src="./public/images/icons/arrow_back_white_24dp.svg" alt=""></a>  Venda 00001  <a href="./editarVenda.html"><img src="./public/images/icons/edit_black_24dp.svg" alt=""></a><a href="#"><img src="./public/images/icons/clear_black_24dp.svg" alt=""></a></h1>
+        <div class="venda-block">
+            <p><strong>Data:</strong> 10/05/2023 - 16:00h</p>
+            <p><strong>Vendedor:</strong> 00001 - Vendedor A</p>
+            <div>
+            <p><strong>Produtos:</strong></p>
+                <ul>
+                    <li>5x 00001 - Produto A - R$ 10,00</li>
+                </ul>
+            </div>
+            <p><strong>Valor total:</strong> R$ 50,00</p>
+        </div>
+    </div>
+</body>
+</html>

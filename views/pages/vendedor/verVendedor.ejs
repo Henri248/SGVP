@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver vendedor</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        
+    <link rel="stylesheet" href="/css/style1.css">
+    <script src="/js/style.js"></script>
+
+</head>
+
+<body>
+    
+    <%- include('../../partials/header'); -%>
+
+    <div class="details container">
+        <h1><a href="./vendedores.html" class="button"><img src="./public/images/icons/arrow_back_white_24dp.svg" alt=""></a>  Vendedor A  <a href="./editarVendedor.html"><img src="./public/images/icons/edit_black_24dp.svg" alt=""></a><a href="#"><img src="./public/images/icons/clear_black_24dp.svg" alt=""></a></h1>
+        <div class="grid-produto">
+            <div class="img">
+                <img src="./public/images/vendedores/vendedorA.png" alt="">
+            </div>
+            <div class="info">
+                <p><b>ID:</b> 00001</p>
+                <p><b>Nome:</b> Vendedor A</p>
+                <p><b>Meta (R$):</b> 1000,00</p>
+                <p><b>Atual (R$):</b> 500,00</p>
+            </div>
+            <div class="description">
+                <p><b>Email</b> vendedor_a@sgvp.com</p>
+                <p><b>Telefone</b> (88) 8888-8888</p>
+                <p><b>Endereço: </b> Rua A, 1, - Bairro A, Cidade A - AA</p>
+                <br>
+                <p><b>Últimas vendas:</b></p>
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Valor (R$)</th>
+                                <th>Data</th>
+                                <th class="crud">Detalhes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>50,00</td>
+                                <td>10/05/2023 - 16:00h</td>
+                                <td class="crud">
+                                    <a href="./verVenda.html"><img src="./public/images/icons/zoom_in_black_24dp.svg" alt=""></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>50,00</td>
+                                <td>10/05/2023 - 16:00h</td>
+                                <td class="crud">
+                                    <a href="./verVenda.html"><img src="./public/images/icons/zoom_in_black_24dp.svg" alt=""></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>50,00</td>
+                                <td>10/05/2023 - 16:00h</td>
+                                <td class="crud">
+                                    <a href="./verVenda.html"><img src="./public/images/icons/zoom_in_black_24dp.svg" alt=""></a>
+                                </td>
+                            </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

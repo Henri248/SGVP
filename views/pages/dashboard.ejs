@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="/js/charts.js"></script>
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="/css/style1.css">
+    <script src="/js/style.js"></script>
+
+    <title>Dashboard</title>
+</head>
+
+<body>
+    
+    <%- include('../partials/header'); -%>
+
+    <div class="dashboard container">
+        <div id="vendas" class="grid-items"><div class="top">Vendas no Dia <p>1000</p></div></div>
+        <div id="lucro" class="grid-items"><div class="top">Lucro do Dia <p>$ 1000,00</p></div></div>
+        <div id="lucro2" class="grid-items"><div class="top">Lucro do Total <p>$ 20000,50</p></div></div>
+        <div id="chart1" class="grid-items"><div id="chart_div1"></div></div>  
+        <div id="chart2" class="grid-items"><div id="chart_div2"></div></div>
+    </div>
+</body>
+
+</html>
