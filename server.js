@@ -1,23 +1,17 @@
 const express = require('express')
-const { Client } = require('pg')
-
+const db = require('./db')
 const app = express()
-const porta = 8000
+const porta = 8000;
 
 
-const client = new Client({
-    user: 'dbuser',
-    host: 'database.server.com',
-    database: 'mydb',
-    password: '1234',
-    port: 5432,
-  })
-  
-  await client.connect()
-  
-  console.log(await client.query('SELECT NOW()'))
-  
-  await client.end()
+(async () => {
+    console.log('Começou!');
+ 
+    console.log('SELECT * FROM CLIENTES');
+    const teste = await db.selectProdutos();
+    console.log(clientes);
+})();
+
 
 app.set('view engine', 'ejs')
 
