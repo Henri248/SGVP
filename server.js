@@ -48,7 +48,7 @@ app.get('/produto', (req, res) => {
     
 })
 
-app.get('/produto/criar', (req, res) => {
+app.get('/produto/criarProduto', (req, res) => {
     res.render('pages/produto/criarProduto')
 })
 
