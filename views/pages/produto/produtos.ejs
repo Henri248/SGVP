@@ -1,23 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-        
-    <link rel="stylesheet" href="/css/style1.css">
-    <script src="/js/style.js"></script>
-
-</head>
-
-<body>
-    <%- include('../../partials/header'); -%>
-
+<%- contentFor('secao') %>
     <div class="container"><%  
         async function logJSONData() {
             const response = await fetch("http://localhost:8000/produto");
@@ -35,8 +16,8 @@
     
     <div class="table container">
         <h1>Produtos</h1>
-        <a href="./criarProduto.html" class="button create">
-            <img src="./public/images/icons/add_circle_outline_white_24dp.svg" alt="">
+        <a href="/produto/criar" class="button create">
+            <img src="/images/icons/add_circle_outline_white_24dp.svg" alt="">
             <p>Adicionar novo produto</p>
         </a>
         <table>
@@ -46,80 +27,28 @@
                     <th>Nome</th>
                     <th>Preço (R$)</th>
                     <th>Estoque</th>
+                    <th>Categoria</th>
                     <th class="crud">Detalhes</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>00001</td>
-                    <td>Produto A</td>
-                    <td>10,00</td>
-                    <td>10</td>
-                    <td class="crud">
-                        <a href="./verProduto.html"><img src="./public/images/icons/zoom_in_black_24dp.svg" alt=""></a>
-                        <a href="./editarProduto.html"><img src="./public/images/icons/edit_black_24dp.svg" alt=""></a>
-                        <a href="#"><img src="./public/images/icons/clear_black_24dp.svg" alt=""></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>00001</td>
-                    <td>Produto A</td>
-                    <td>10,00</td>
-                    <td>10</td>
-                    <td class="crud">
-                        <a href="./verProduto.html"><img src="./public/images/icons/zoom_in_black_24dp.svg" alt=""></a>
-                        <a href="./editarProduto.html"><img src="./public/images/icons/edit_black_24dp.svg" alt=""></a>
-                        <a href="#"><img src="./public/images/icons/clear_black_24dp.svg" alt=""></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>00001</td>
-                    <td>Produto A</td>
-                    <td>10,00</td>
-                    <td>10</td>
-                    <td class="crud">
-                        <a href="./verProduto.html"><img src="./public/images/icons/zoom_in_black_24dp.svg" alt=""></a>
-                        <a href="./editarProduto.html"><img src="./public/images/icons/edit_black_24dp.svg" alt=""></a>
-                        <a href="#"><img src="./public/images/icons/clear_black_24dp.svg" alt=""></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>00001</td>
-                    <td>Produto A</td>
-                    <td>10,00</td>
-                    <td>10</td>
-                    <td class="crud">
-                        <a href="./verProduto.html"><img src="./public/images/icons/zoom_in_black_24dp.svg" alt=""></a>
-                        <a href="./editarProduto.html"><img src="./public/images/icons/edit_black_24dp.svg" alt=""></a>
-                        <a href="#"><img src="./public/images/icons/clear_black_24dp.svg" alt=""></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>00001</td>
-                    <td>Produto A</td>
-                    <td>10,00</td>
-                    <td>10</td>
-                    <td class="crud">
-                        <a href="./verProduto.html"><img src="./public/images/icons/zoom_in_black_24dp.svg" alt=""></a>
-                        <a href="./editarProduto.html"><img src="./public/images/icons/edit_black_24dp.svg" alt=""></a>
-                        <a href="#"><img src="./public/images/icons/clear_black_24dp.svg" alt=""></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>00001</td>
-                    <td>Produto A</td>
-                    <td>10,00</td>
-                    <td>10</td>
-                    <td class="crud">
-                        <a href="./verProduto.html"><img src="./public/images/icons/zoom_in_black_24dp.svg" alt=""></a>
-                        <a href="./editarProduto.html"><img src="./public/images/icons/edit_black_24dp.svg" alt=""></a>
-                        <a href="#"><img src="./public/images/icons/clear_black_24dp.svg" alt=""></a>
-                    </td>
-                </tr>
+                
+                    <% 
+                        produtos.forEach(function(produto){%>
+                            <tr>
+                                <td><%- produto.id %></td>
+                                <td><%- produto.nome %></td>
+                                <td><%- produto.preco %></td>
+                                <td><%- produto.estoque %></td>
+                                <td><%- produto.categoria %></td>
+                                <td class="crud">
+                                    <a href="/produto/ver"><img src="/images/icons/zoom_in_black_24dp.svg" alt=""></a>
+                                    <a href="/produto/editar"><img src="/images/icons/edit_black_24dp.svg" alt=""></a>
+                                    <a href="#"><img src="/images/icons/clear_black_24dp.svg" alt=""></a>
+                                </td>
+                            </tr>
+                        <% }); %>                 
+                
+                
         </table>
     </div>
-</body>
-
-
-
-</html>
