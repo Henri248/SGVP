@@ -1,8 +1,8 @@
 <%- contentFor('secao') %>
     <div class="table container">
         <h1>Vendas</h1>
-        <a href="./criarVenda.html" class="button create">
-            <img src="./public/images/icons/add_circle_outline_white_24dp.svg" alt="">
+        <a href="/venda/criar" class="button create">
+            <img src="/images/icons/add_circle_outline_white_24dp.svg" alt="">
             <p>Realizar nova venda</p>
         </a>
         <table>
@@ -18,16 +18,16 @@
             <tbody>
                 <% vendas.forEach(function(venda){%>
                     <tr>
-                        <td>00001</td>
-                        <td>Vendedor A</td>
-                        <td>50,00</td>
-                        <td>10/05/2023 - 16:00h</td>
+                        <td><%- venda.id %></td>
+                        <td><%- venda.vendedor %></td>
+                        <td><%- venda.valor %></td>
+                        <td><%- venda.data %></td>
                         <td class="crud">
-                            <a href="./verVenda.html"><img src="./public/images/icons/zoom_in_black_24dp.svg"
+                            <a href="/venda/ver"><img src="./images/icons/zoom_in_black_24dp.svg"
                                     alt=""></a>
-                            <a href="./editarVenda.html"><img src="./public/images/icons/edit_black_24dp.svg"
+                            <a href="/venda/editar"><img src="/images/icons/edit_black_24dp.svg"
                                     alt=""></a>
-                            <a href="#"><img src="./public/images/icons/clear_black_24dp.svg" alt=""></a>
+                            <a href="#"><img src="/images/icons/clear_black_24dp.svg" alt=""></a>
                         </td>
                     </tr>
                     <% }); %>

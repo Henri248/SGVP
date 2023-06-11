@@ -1,4 +1,5 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const db = require('./db')
 const cookieParser = require('cookie-parser');
 const expressLayouts = require('express-ejs-layouts')
@@ -13,11 +14,12 @@ const porta = 8000;
 app.set('view engine', 'ejs')
 
 
-
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 app.use(express.static('public'))
-
 app.use(cookieParser())
 app.use(expressLayouts)
+
 
 app.get('/', (req, res) => {
     console.log(req.cookies)
@@ -38,37 +40,101 @@ app.get('/produto', (req, res) => {
 
     (async () => {
         console.log('Começou!');
-     
+
         const p = await db.selectProdutos();
 
         console.log(p);
-        res.render('pages/produto/produtos', {produtos: p})
-        
+        res.render('pages/produto/produtos', { produtos: p })
+
     })();
-    
+
 })
 
-app.get('/produto/criarProduto', (req, res) => {
+app.get('/produto/criar', (req, res) => {
     res.render('pages/produto/criarProduto')
 })
 
-app.get('/produto/editar', (req, res) => {
-    res.render('pages/produto/editarProduto')
+app.post('/produto/criar/post', (req, res) => {
+
+
+
+    (async () => {
+        let nome = req.body.nome
+        let preco = req.body.valor
+        let estoque = req.body.estoque
+        let descricao = req.body.descricao
+
+        //console.log(data.nome)
+        console.log(descricao)
+
+        await db.insertProduto(nome, "Categoria A", preco, estoque, descricao);
+
+        //console.log(p);
+        res.redirect('/produto')
+    })();
 })
 
-app.get('/produto/ver', (req, res) => {
-    res.render('pages/produto/verProduto')
+app.post('/produto/editar/post', (req, res) => {
+
+
+
+    (async () => {
+        let id = req.body.id
+        let nome = req.body.nome
+        let preco = req.body.valor
+        let estoque = req.body.estoque
+        let descricao = req.body.descricao
+
+        //console.log(data.nome)
+        console.log(req.body)
+        await db.updateProdutoID(id, nome, "Categoria A", preco, estoque, "Teste");
+
+        //console.log(p);
+        res.redirect('/produto')
+    })();
+})
+
+app.get('/produto/delete/:id', (req, res) => {
+    (async () => {
+        console.log(req.body.preco)
+        await db.deleteProdutoID(req.params.id, false);
+
+        //console.log(p);
+        res.redirect('/produto')
+    })();
+})
+
+app.get('/produto/editar/:p', (req, res) => {
+    (async () => {
+        console.log('Começou!');
+
+        const p = await db.selectProdutoID(req.params.p);
+
+        console.log(p);
+        res.render('pages/produto/editarProduto', { produto: p })
+    })();
+})
+
+app.get('/produto/ver/:p', (req, res) => {
+    (async () => {
+        console.log('Começou!');
+
+        const p = await db.selectProdutoID(req.params.p);
+
+        console.log(p);
+        res.render('pages/produto/verProduto', { produto: p })
+    })();
 })
 
 // GET -> Venda
 app.get('/venda', (req, res) => {
     (async () => {
         console.log('Começou!');
-     
-        const v = await db.selectProdutos();
+
+        const v = await db.selectVendas();
 
         console.log(v);
-        res.render('pages/venda/vendas', {vendas: v})
+        res.render('pages/venda/vendas', { vendas: v })
     })();
 })
 
@@ -89,11 +155,11 @@ app.get('/venda/ver', (req, res) => {
 app.get('/vendedor', (req, res) => {
     (async () => {
         console.log('Começou!');
-     
-        const v = await db.selectProdutos();
+
+        const v = await db.selectVendedores();
 
         console.log(v);
-        res.render('pages/vendedor/vendedores', {vendedores: v})
+        res.render('pages/vendedor/vendedores', { vendedores: v })
     })();
 })
 

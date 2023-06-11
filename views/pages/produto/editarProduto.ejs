@@ -1,23 +1,23 @@
 <%- contentFor('secao') %>
     <div class="form container">
-        <h1><a href="./produtos.html" class="button"><img src="./public/images/icons/arrow_back_white_24dp.svg"
-                    alt=""></a> Editar Produto A</h1>
-        <form method="post" enctype="multipart/form-data">
+        <h1><a href="/produto" class="button"><img src="/images/icons/arrow_back_white_24dp.svg"
+                    alt=""></a> Editar <%- produto[0].nome %></h1>
+        <form method="post" action="/produto/editar/post">
             <span>
                 <label for="id">ID:</label>
-                <input type="number" id="id" name="id" value="00001">
+                <input type="number" id="id" name="id" value="<%- produto[0].id %>">
             </span>
             <span>
                 <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" value="Produto A">
+                <input type="text" id="nome" name="nome" value="<%- produto[0].nome %>">
             </span>
             <span>
                 <label for="estoque">Estoque:</label>
-                <input type="number" id="estoque" name="estoque" value="10">
+                <input type="number" id="estoque" name="estoque" value="<%- produto[0].estoque %>">
             </span>
             <span>
                 <label for="valor">Valor:</label>
-                <input type="number" step="0.01" id="valor" name="valor" value="10.00">
+                <input type="number" step="0.01" id="valor" name="valor" value="<%- produto[0].preco %>">
             </span>
             <span>
                 <label for="imagem">Imagem:</label>

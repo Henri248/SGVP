@@ -1,15 +1,16 @@
 <%- contentFor('secao') %>
     <div class="details container">
-        <h1><a href="./produtos.html" class="button"><img src="./public/images/icons/arrow_back_white_24dp.svg" alt=""></a>  Produto A  <a href="./editarProduto.html"><img src="./public/images/icons/edit_black_24dp.svg" alt=""></a><a href="#"><img src="./public/images/icons/clear_black_24dp.svg" alt=""></a></h1>
+        <h1><a href="/produto" class="button"><img src="/images/icons/arrow_back_white_24dp.svg" alt=""></a>  <%- produto[0].nome %>  <a href="/produto/editar"><img src="/images/icons/edit_black_24dp.svg" alt=""></a><a href="#"><img src="/images/icons/clear_black_24dp.svg" alt=""></a></h1>
         <div class="grid-produto">
             <div class="img">
-                <img src="./public/images/produtos/produtoA.png" alt="">
+                <img src="/images/produtos/produtoA.png" alt="">
             </div>
             <div class="info">
-                <p><b>ID:</b> 00001</p>
-                <p><b>Nome:</b> Produto A</p>
-                <p><b>Preço:</b> R$ 10,00</p>
-                <p><b>Estoque:</b> 10</p>
+                <p><b>ID:</b> <%- produto[0].id %></p>
+                <p><b>Nome:</b> <%- produto[0].nome %></p>
+                <p><b>Preço:</b> <%- produto[0].preco %></p>
+                <p><b>Estoque:</b> <%- produto[0].estoque %></p>
+                <p><b>Categoria:</b> <%- produto[0].categoria %></p>
             </div>
             <div class="description">
                 <p><b>Descrição:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>

@@ -1,19 +1,16 @@
 <%- contentFor('secao') %>
-    <div class="container"><%  
+    <div class="container">
+        <% async function logJSONData() { const response=await fetch("http://localhost:8000/produto"); const
+            jsonData=await response.json(); console.log(jsonData); } %>
+    </div>
+    <script>
         async function logJSONData() {
             const response = await fetch("http://localhost:8000/produto");
             const jsonData = await response.json();
             console.log(jsonData);
         }
-        %></div>
-    <script>
-        async function logJSONData() {
-  const response = await fetch("http://localhost:8000/produto");
-  const jsonData = await response.json();
-  console.log(jsonData);
-}
     </script>
-    
+
     <div class="table container">
         <h1>Produtos</h1>
 
@@ -33,23 +30,30 @@
                 </tr>
             </thead>
             <tbody>
-                
-                    <% 
-                        produtos.forEach(function(produto){%>
-                            <tr>
-                                <td><%- produto.id %></td>
-                                <td><%- produto.nome %></td>
-                                <td><%- produto.preco %></td>
-                                <td><%- produto.estoque %></td>
-                                <td><%- produto.categoria %></td>
-                                <td class="crud">
-                                    <a href="/produto/ver"><img src="/images/icons/zoom_in_black_24dp.svg" alt=""></a>
-                                    <a href="/produto/editar"><img src="/images/icons/edit_black_24dp.svg" alt=""></a>
-                                    <a href="#"><img src="/images/icons/clear_black_24dp.svg" alt=""></a>
-                                </td>
-                            </tr>
-                        <% }); %>                 
-                
-                
+
+                <% produtos.forEach(function(produto){%>
+
+                    <% if(produto.ativo) { %>
+
+
+                        <tr>
+                            <td><%- produto.id %></td>
+                            <td><%- produto.nome %></td>
+                            <td><%- produto.preco %></td>
+                            <td><%- produto.estoque %></td>
+                            <td><%- produto.categoria %></td>
+                            <td class="crud">
+                                <a href="/produto/ver/<%- produto.id %>"><img src="/images/icons/zoom_in_black_24dp.svg"
+                                        alt=""></a>
+                                <a href="/produto/editar/<%- produto.id %>"><img src="/images/icons/edit_black_24dp.svg"
+                                        alt=""></a>
+                                <a href="/produto/delete/<%- produto.id %>"><img
+                                        src="/images/icons/clear_black_24dp.svg" alt=""></a>
+                            </td>
+                        </tr>
+                        <%  } %>
+                        <% }); %>
+
+
         </table>
     </div>
