@@ -1,23 +1,26 @@
 const express = require('express')
 const db = require('./db')
+const cookieParser = require('cookie-parser');
+const expressLayouts = require('express-ejs-layouts')
+
+
+
 const app = express()
 const porta = 8000;
 
 
-(async () => {
-    console.log('Começou!');
- 
-    console.log('SELECT * FROM CLIENTES');
-    const teste = await db.selectProdutos();
-    console.log(teste);
-})();
-
 
 app.set('view engine', 'ejs')
 
+
+
 app.use(express.static('public'))
 
+app.use(cookieParser())
+app.use(expressLayouts)
+
 app.get('/', (req, res) => {
+    console.log(req.cookies)
     res.send('Hello World, Sejam todos bem vindos ao primeiro Servidor Express')
 })
 
@@ -36,10 +39,10 @@ app.get('/produto', (req, res) => {
     (async () => {
         console.log('Começou!');
      
-        const produtos = await db.selectProdutos();
+        const p = await db.selectProdutos();
 
-        console.log(produtos);
-        res.render('pages/produto/produtos', {resposta: produtos})
+        console.log(p);
+        res.render('pages/produto/produtos', {produtos: p})
         
     })();
     
@@ -59,7 +62,14 @@ app.get('/produto/ver', (req, res) => {
 
 // GET -> Venda
 app.get('/venda', (req, res) => {
-    res.render('pages/venda/vendas')
+    (async () => {
+        console.log('Começou!');
+     
+        const v = await db.selectProdutos();
+
+        console.log(v);
+        res.render('pages/venda/vendas', {vendas: v})
+    })();
 })
 
 app.get('/venda/criar', (req, res) => {
@@ -77,7 +87,14 @@ app.get('/venda/ver', (req, res) => {
 
 // GET -> Vendedor
 app.get('/vendedor', (req, res) => {
-    res.render('pages/vendedor/vendedores')
+    (async () => {
+        console.log('Começou!');
+     
+        const v = await db.selectProdutos();
+
+        console.log(v);
+        res.render('pages/vendedor/vendedores', {vendedores: v})
+    })();
 })
 
 app.get('/vendedor/criar', (req, res) => {
