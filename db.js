@@ -50,7 +50,7 @@ async function updateProdutoID(id, nome, categoria, preco, estoque, descricao) {
     return res.rows;
 }
 
-async function deleteProdutoID(id, ativo) {   
+async function activeProdutoID(id, ativo) {   
     const client = await connect();
     const res = await client.query(`UPDATE produtos SET ativo = ${ativo}  WHERE id = ${id}`);
     return res.rows;
@@ -81,7 +81,7 @@ async function updateVendedorID(id, meta, meta_atual) {
     return res.rows;
 }
 
-async function deleteVendedorID(id, ativo) {   
+async function activeVendedorID(id, ativo) {   
     const client = await connect();
     const res = await client.query(`UPDATE vendedores SET ativo = ${ativo}  WHERE id = ${id}`);
     if (ativo) {
@@ -106,11 +106,11 @@ async function selectClienteID(id) {
 
 async function insertCliente(nome, email, telefone, endereco) {   
     const client = await connect();
-    const res = await client.query(`INSERT INTO clientes (nome, email, telefone, endereco, meta, meta_atual, ativo) VALUES ('${nome}', '${email}', '${telefone}', '${endereco}')`);
+    const res = await client.query(`INSERT INTO clientes (nome, email, telefone, endereco) VALUES ('${nome}', '${email}', '${telefone}', '${endereco}')`);
     return res.rows;
 }
 
-async function updateClienteID(id, email, telefone, endereco) {   
+async function updateClienteID(id, nome, email, telefone, endereco) {   
     const client = await connect();
     const res = await client.query(`UPDATE clientes SET nome = '${nome}', email = '${email}', telefone = '${telefone}', endereco = '${endereco}' WHERE id = ${id}`);
     return res.rows;
@@ -132,7 +132,7 @@ async function selectVendas() {
 async function selectVendaID(id) {
     const client = await connect();
     const res = await client.query(`SELECT v.id, v.data, vd.nome AS vendedor, c.nome AS cliente, SUM(p.preco * pv.quantidade) AS valor
-	FROM (SELECT * FROM vendas WHERE id = 1) v
+	FROM (SELECT * FROM vendas WHERE id = ${id}) v
 	INNER JOIN vendedores vd ON v.id_vendedor = vd.id
 	INNER JOIN clientes c ON v.id_cliente = c.id
 	INNER JOIN produtos_vendas pv ON v.id = pv.id_venda
@@ -149,7 +149,7 @@ async function insertVenda(id_vendedor, id_cliente) {
 
 async function insertProdutoVenda(id_venda, id_produto, quantidade) {   
     const client = await connect();
-    const res = await client.query(`INSERT INTO vendas (id_venda, id_produto, quantidade) VALUES (${id_venda}, ${id_produto}, ${quantidade})`);
+    const res = await client.query(`INSERT INTO produtos_vendas (id_venda, id_produto, quantidade) VALUES (${id_venda}, ${id_produto}, ${quantidade})`);
     return res.rows;
 }
 
@@ -164,20 +164,24 @@ async function deleteVendaID(id) {
 async function validarUsuario(email, senha) {
     const client = await connect();
     const res = await client.query(`SELECT count(*) FROM usuarios WHERE email = '${email}' AND senha = '${senha}'`);
-    return res.rows;
+    if (res.rows[0].count == 1) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 async function dadosUsuario(email) {
     const client = await connect();
-    const res = await client.query(`SELECT vd.nome, u.email, u.senha, vd.telefone, vd.endereco, vd.meta, vd.meta_atual FROM (SELECT * FROM vendedores WHERE email = ${email}) vd INNER JOIN usuarios u ON vd.email = u.email`);
+    const res = await client.query(`SELECT vd.nome, u.email, u.senha, vd.telefone, vd.endereco, vd.meta, vd.meta_atual FROM (SELECT * FROM vendedores WHERE email = '${email}') vd INNER JOIN usuarios u ON vd.email = u.email`);
     return res.rows;
 }
 
-async function updateUsuario(nome, email, senha, telefone, endereco) {
+async function updateUsuario(email, nome, novo_email, senha, telefone, endereco) {
     const client = await connect();
-    const res = await client.query(`UPDATE usuarios SET email = '${email}', senha = '${senha}' WHERE email = '${email}'`);
-    client.query(`UPDATE vendedores SET nome = '${nome}', email = '${email}', telefone = '${telefone}', endereco = '${endereco}' WHERE email = '${email}'`);
+    const res = await client.query(`UPDATE usuarios SET email = '${novo_email}', senha = '${senha}' WHERE email = '${email}'`);
+    client.query(`UPDATE vendedores SET nome = '${nome}', email = '${novo_email}', telefone = '${telefone}', endereco = '${endereco}' WHERE email = '${email}'`);
     return res.rows;
 }
 
-module.exports = {selectProdutos, selectProdutoID, insertProduto, updateProdutoID, deleteProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateVendedorID, deleteVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, insertVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario}
+module.exports = {selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateVendedorID, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, insertVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario}
