@@ -27,10 +27,14 @@ async function connect() {
 
 async function selectProdutos() {
     const client = await connect();
-    console.log(await client.query('SELECT id, nome, categoria, preco, estoque FROM produtos WHERE ativo = true'))
-    //const res = await client.query('SELECT * FROM clientes');
-    //return res.rows;
+    const res = await client.query('SELECT id, nome, categoria, preco, estoque FROM produtos WHERE ativo = true');
+    return res.rows;
 }
 
+async function validarUsuario() {
+    const client = await connect();
+    const res = await client.query('SELECT id, nome, categoria, preco, estoque FROM produtos WHERE ativo = true');
+    return res.rows;
+}
 
-module.exports = { selectProdutos }
+module.exports = { selectProdutos, validarUsuario }

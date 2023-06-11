@@ -9,7 +9,7 @@ const porta = 8000;
  
     console.log('SELECT * FROM CLIENTES');
     const teste = await db.selectProdutos();
-    console.log(clientes);
+    console.log(teste);
 })();
 
 
@@ -32,7 +32,17 @@ app.get('/dashboard', (req, res) => {
 
 // GET -> Produto
 app.get('/produto', (req, res) => {
-    res.render('pages/produto/produtos')
+
+    (async () => {
+        console.log('Começou!');
+     
+        const produtos = await db.selectProdutos();
+
+        console.log(produtos);
+        res.render('pages/produto/produtos', {resposta: produtos})
+        
+    })();
+    
 })
 
 app.get('/produto/criar', (req, res) => {

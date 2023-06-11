@@ -17,6 +17,21 @@
 
 <body>
     <%- include('../../partials/header'); -%>
+
+    <div class="container"><%  
+        async function logJSONData() {
+            const response = await fetch("http://localhost:8000/produto");
+            const jsonData = await response.json();
+            console.log(jsonData);
+        }
+        %></div>
+    <script>
+        async function logJSONData() {
+  const response = await fetch("http://localhost:8000/produto");
+  const jsonData = await response.json();
+  console.log(jsonData);
+}
+    </script>
     
     <div class="table container">
         <h1>Produtos</h1>
