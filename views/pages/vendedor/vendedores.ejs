@@ -1,8 +1,8 @@
 <%- contentFor('secao') %>
     <div class="table container">
         <h1>Vendedores</h1>
-        <a href="./criarVendedor.html" class="button create">
-            <img src="./public/images/icons/add_circle_outline_white_24dp.svg" alt="">
+        <a href="/vendedor/criar" class="button create">
+            <img src="/images/icons/add_circle_outline_white_24dp.svg" alt="">
             <p>Cadastrar novo vendedor</p>
         </a>
         <table>
@@ -18,16 +18,16 @@
             <tbody>
                 <% vendedores.forEach(function(vendedor){%>
                     <tr>
-                        <td>00001</td>
-                        <td>Vendedor A</td>
-                        <td>1000,00</td>
-                        <td>500,00</td>
+                        <td><%- vendedor.id %></td>
+                        <td><%- vendedor.nome %></td>
+                        <td><%- vendedor.meta %></td>
+                        <td><%- vendedor.meta_atual %></td>
                         <td class="crud">
-                            <a href="./verVendedor.html"><img src="./public/images/icons/zoom_in_black_24dp.svg"
+                            <a href="/vendedor/ver"><img src="/images/icons/zoom_in_black_24dp.svg"
                                     alt=""></a>
-                            <a href="./editarVendedor.html"><img src="./public/images/icons/edit_black_24dp.svg"
+                            <a href="/vendedor/editar"><img src="/images/icons/edit_black_24dp.svg"
                                     alt=""></a>
-                            <a href="#"><img src="./public/images/icons/clear_black_24dp.svg" alt=""></a>
+                            <a href="#"><img src="/images/icons/clear_black_24dp.svg" alt=""></a>
                         </td>
                     </tr>
                     <% }); %>

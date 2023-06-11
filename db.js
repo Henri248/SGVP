@@ -8,8 +8,8 @@ async function connect() {
     const pool = new Pool({
         user: 'postgres',
         //host: 'database.server.com',
-        database: 'SGVP',
-        password: '123987',
+        database: 'sgvp',
+        password: '1234',
         port: 5432,
     })
 
@@ -28,7 +28,7 @@ async function connect() {
 //Produtos
 async function selectProdutos() {
     const client = await connect();
-    const res = await client.query('SELECT id, nome, categoria, preco, estoque FROM produtos WHERE ativo = true');
+    const res = await client.query('SELECT id, nome, categoria, preco, estoque, ativo FROM produtos WHERE ativo = true');
     return res.rows;
 }
 
