@@ -13,11 +13,12 @@
 
     <div class="table container">
         <h1>Produtos</h1>
-
+        <% if(gestor) { %>
         <a href="/produto/criar" class="button create">
             <img src="/images/icons/add_circle_outline_white_24dp.svg" alt="">
             <p>Adicionar novo produto</p>
         </a>
+        <% } %>
         <table>
             <thead>
                 <tr>
@@ -45,10 +46,13 @@
                             <td class="crud">
                                 <a href="/produto/ver/<%- produto.id %>"><img src="/images/icons/zoom_in_black_24dp.svg"
                                         alt=""></a>
+                                <% if(gestor) { %>
                                 <a href="/produto/editar/<%- produto.id %>"><img src="/images/icons/edit_black_24dp.svg"
                                         alt=""></a>
                                 <a href="/produto/delete/<%- produto.id %>"><img
                                         src="/images/icons/clear_black_24dp.svg" alt=""></a>
+                                <% } %>
+
                             </td>
                         </tr>
                         <%  } %>

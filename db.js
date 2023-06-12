@@ -125,7 +125,7 @@ async function deleteClienteID(id) {
 //Vendas
 async function selectVendas() {
     const client = await connect();
-    const res = await client.query('SELECT v.id, vd.nome AS vendedor, c.nome AS cliente, SUM(p.preco * pv.quantidade) AS valor, v.data FROM vendas v INNER JOIN vendedores vd ON v.id_vendedor = vd.id INNER JOIN clientes c ON v.id_cliente = c.id INNER JOIN produtos_vendas pv ON v.id = pv.id_venda INNER JOIN produtos p ON pv.id_produto = p.id GROUP BY v.id, vd.nome, c.nome, v.data ORDER BY data DESC');
+    const res = await client.query('SELECT v.id, vd.nome AS vendedor, c.nome AS cliente, SUM(p.preco * pv.quantidade) AS valor, to_char(v.data, \'DD/MM/YYYY HH24:MI:SS\') AS data FROM vendas v INNER JOIN vendedores vd ON v.id_vendedor = vd.id INNER JOIN clientes c ON v.id_cliente = c.id INNER JOIN produtos_vendas pv ON v.id = pv.id_venda INNER JOIN produtos p ON pv.id_produto = p.id GROUP BY v.id, vd.nome, c.nome, v.data ORDER BY data DESC');
     return res.rows;
 }
 
@@ -163,11 +163,14 @@ async function deleteVendaID(id) {
 // Usuários
 async function validarUsuario(email, senha) {
     const client = await connect();
-    const res = await client.query(`SELECT count(*) FROM usuarios WHERE email = '${email}' AND senha = '${senha}'`);
-    if (res.rows[0].count == 1) {
-        return true;
+    const res = await client.query(`SELECT * FROM usuarios WHERE email = '${email}' AND senha = '${senha}'`);
+    if (res.rows.length > 0) {
+        if (res.rows[0].gestor) {
+            return [true, true];
+        }
+        return [true, false];
     } else {
-        return false;
+        return [false];
     }
 }
 

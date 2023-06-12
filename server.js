@@ -27,162 +27,170 @@ app.get('/', (req, res) => {
 })
 
 app.get('/teste', (req, res) => {
-    res.render('teste')
+    console.log(req.cookies)
 })
 
-// GET
+// USUARIO --------------------------------------------------------------
+
+// GET -> Login
+app.get('/login', (req, res) => {
+    res.clearCookie('email')
+    res.clearCookie('gestor')
+    res.render('pages/login', { email: false, gestor: false })
+})
+
+// POST -> Login
+app.post('/verifica_login', (req, res) => {
+    const { email, senha } = req.body;
+    (async () => {
+        const login = await db.validarUsuario(email, senha);
+        if (login[0]) {
+            res.cookie('email', email);
+            res.cookie('gestor', login[1]);
+            res.redirect('/dashboard')
+        } else {
+            res.redirect('/login')
+        }
+    })();
+})
+
+// GET -> Dashboard
 app.get('/dashboard', (req, res) => {
-    res.render('pages/dashboard')
+    if (req.cookies.email) {res.render('pages/dashboard', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })} 
+    else {res.redirect('/login')}
 })
 
-// GET -> Produto
+// GET -> Perfil
+app.get('/perfil', (req, res) => {
+    res.render('pages/perfil', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
+})
+
+
+// PRODUTO --------------------------------------------------------------
+
+// GET -> Produtos
 app.get('/produto', (req, res) => {
 
     (async () => {
-        console.log('Começou!');
-
         const p = await db.selectProdutos();
-
-        console.log(p);
-        res.render('pages/produto/produtos', { produtos: p })
+        res.render('pages/produto/produtos', { produtos: p, email: req.cookies.email ,gestor: req.cookies.gestor=='true' ? true : false })
 
     })();
 
 })
 
-app.get('/produto/criar', (req, res) => {
-    res.render('pages/produto/criarProduto')
+// GET -> Produto/Ver
+app.get('/produto/ver/:p', (req, res) => {
+    (async () => {
+
+        const p = await db.selectProdutoID(req.params.p);
+
+        res.render('pages/produto/verProduto', { produto: p, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
+    })();
 })
 
+// GET -> Produto/Criar
+app.get('/produto/criar', (req, res) => {
+    res.render('pages/produto/criarProduto', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
+})
+
+// POST -> Produto/Criar
 app.post('/produto/criar/post', (req, res) => {
-
-
-
     (async () => {
         let nome = req.body.nome
+        let categoria = req.body.categoria
         let preco = req.body.valor
         let estoque = req.body.estoque
         let descricao = req.body.descricao
 
-        //console.log(data.nome)
-        console.log(descricao)
+        await db.insertProduto(nome, categoria, preco, estoque, descricao);
 
-        await db.insertProduto(nome, "Categoria A", preco, estoque, descricao);
-
-        //console.log(p);
         res.redirect('/produto')
     })();
 })
 
+// GET -> Produto/Editar
+app.get('/produto/editar/:p', (req, res) => {
+    (async () => {
+
+        const p = await db.selectProdutoID(req.params.p);
+
+        res.render('pages/produto/editarProduto', { produto: p, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
+    })();
+})
+
+// POST -> Produto/Editar
 app.post('/produto/editar/post', (req, res) => {
-
-
-
     (async () => {
         let id = req.body.id
         let nome = req.body.nome
+        let categoria = req.body.categoria
         let preco = req.body.valor
         let estoque = req.body.estoque
         let descricao = req.body.descricao
 
-        //console.log(data.nome)
-        console.log(req.body)
-        await db.updateProdutoID(id, nome, "Categoria A", preco, estoque, "Teste");
+        await db.updateProdutoID(id, nome, categoria, preco, estoque, descricao);
 
-        //console.log(p);
         res.redirect('/produto')
     })();
 })
 
+// GET -> Produto/Deletar
 app.get('/produto/delete/:id', (req, res) => {
     (async () => {
-        console.log(req.body.preco)
-        await db.deleteProdutoID(req.params.id, false);
-
-        //console.log(p);
+        await db.activeProdutoID(req.params.id, false);
         res.redirect('/produto')
     })();
 })
 
-app.get('/produto/editar/:p', (req, res) => {
-    (async () => {
-        console.log('Começou!');
+// VENDA --------------------------------------------------------------
 
-        const p = await db.selectProdutoID(req.params.p);
-
-        console.log(p);
-        res.render('pages/produto/editarProduto', { produto: p })
-    })();
-})
-
-app.get('/produto/ver/:p', (req, res) => {
-    (async () => {
-        console.log('Começou!');
-
-        const p = await db.selectProdutoID(req.params.p);
-
-        console.log(p);
-        res.render('pages/produto/verProduto', { produto: p })
-    })();
-})
-
-// GET -> Venda
+// GET -> Vendas
 app.get('/venda', (req, res) => {
     (async () => {
-        console.log('Começou!');
-
         const v = await db.selectVendas();
-
-        console.log(v);
-        res.render('pages/venda/vendas', { vendas: v })
+        res.render('pages/venda/vendas', { vendas: v, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
     })();
 })
 
+// GET -> Venda/Criar
 app.get('/venda/criar', (req, res) => {
-    res.render('pages/venda/criarVenda')
+    res.render('pages/venda/criarVenda', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
 })
 
+// GET -> Venda/Editar
 app.get('/venda/editar', (req, res) => {
-    res.render('pages/venda/editarVenda')
+    res.render('pages/venda/editarVenda', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
 })
 
+// GET -> Venda/Ver
 app.get('/venda/ver', (req, res) => {
-    res.render('pages/venda/verVenda')
+    res.render('pages/venda/verVenda', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
 })
 
+// VENDEDOR --------------------------------------------------------------
 
 // GET -> Vendedor
 app.get('/vendedor', (req, res) => {
     (async () => {
-        console.log('Começou!');
-
         const v = await db.selectVendedores();
-
-        console.log(v);
-        res.render('pages/vendedor/vendedores', { vendedores: v })
+        res.render('pages/vendedor/vendedores', { vendedores: v, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
     })();
 })
 
+// GET -> Vendedor/Criar
 app.get('/vendedor/criar', (req, res) => {
-    res.render('pages/vendedor/criarVendedor')
+    res.render('pages/vendedor/criarVendedor', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
 })
 
+// GET -> Vendedor/Editar
 app.get('/vendedor/editar', (req, res) => {
-    res.render('pages/vendedor/editarVendedor')
+    res.render('pages/vendedor/editarVendedor', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
 })
 
+// GET -> Vendedor/Ver
 app.get('/vendedor/ver', (req, res) => {
-    res.render('pages/vendedor/verVendedor')
-})
-
-
-// GET -> Outros
-app.get('/login', (req, res) => {
-    res.render('pages/login')
-})
-
-app.get('/perfil', (req, res) => {
-    res.render('pages/perfil')
+    res.render('pages/vendedor/verVendedor', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
 })
 
 

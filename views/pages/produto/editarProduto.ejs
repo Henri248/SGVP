@@ -12,6 +12,10 @@
                 <input type="text" id="nome" name="nome" value="<%- produto[0].nome %>">
             </span>
             <span>
+                <label for="categoria">Categoria:</label>
+                <input type="text" id="categoria" name="categoria" value="<%- produto[0].categoria %>">
+            </span>
+            <span>
                 <label for="estoque">Estoque:</label>
                 <input type="number" id="estoque" name="estoque" value="<%- produto[0].estoque %>">
             </span>
@@ -26,7 +30,7 @@
             <span>
                 <label for="descricao">Descrição:</label>
                 <textarea id="descricao" name="descricao" rows="5"
-                    cols="40">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
+                    cols="40"><%- produto[0].descricao %></textarea>
             </span>
             <span id="buttons">
                 <button id="delete" type="submit">Excluir</button>
