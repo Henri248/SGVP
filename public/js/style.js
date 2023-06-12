@@ -20,6 +20,7 @@ var tamanhoFonte1 = 1.2;
 var tamanhoFonte2 = 20;
 var tamanhoFonte3 = 24;
 var tamanhoFonte4 = 40;
+var tamanhoFonte5 = 14;
 
 var k = 0
 document.cookie = "";
@@ -61,11 +62,13 @@ function checkCookie() {
     let tF2 = getCookie("tamanhoFonte2");
     let tF3 = getCookie("tamanhoFonte3");
     let tF4 = getCookie("tamanhoFonte4");
-    if (tF1 != "" && tF2 != "" && tF3 != "" && tF4 != "") {
+    let tF5 = getCookie("tamanhoFonte5");
+    if (tF1 != "" && tF2 != "" && tF3 != "" && tF4 != "" && tF5 != "") {
         tamanhoFonte1 = parseFloat(tF1)
         tamanhoFonte2 = parseFloat(tF2)
         tamanhoFonte3 = parseFloat(tF3)
         tamanhoFonte4 = parseFloat(tF4)
+        tamanhoFonte5 = parseFloat(tF5)
 
         console.log(tamanhoFonte1)
         tamanhoFonte()
@@ -77,6 +80,7 @@ function checkCookie() {
         setCookie("tamanhoFonte2", tamanhoFonte2);
         setCookie("tamanhoFonte3", tamanhoFonte3);
         setCookie("tamanhoFonte4", tamanhoFonte4);
+        setCookie("tamanhoFonte5", tamanhoFonte5);
     }
 }
 
@@ -111,6 +115,7 @@ function tamanhoFonte() {
     document.documentElement.style.setProperty("--tamanho-fonte-2", tamanhoFonte2 + "px");
     document.documentElement.style.setProperty("--tamanho-fonte-3", tamanhoFonte3 + "px");
     document.documentElement.style.setProperty("--tamanho-fonte-4", tamanhoFonte4 + "px");
+    document.documentElement.style.setProperty("--tamanho-fonte-5", tamanhoFonte5 + "px");
 }
 
 
@@ -148,16 +153,19 @@ function aumentarFonte() {
     tamanhoFonte2 += 1;
     tamanhoFonte3 += 1;
     tamanhoFonte4 += 1;
+    tamanhoFonte5 += 1;
  
     document.documentElement.style.setProperty("--tamanho-fonte-1", tamanhoFonte1 + "rem");
     document.documentElement.style.setProperty("--tamanho-fonte-2", tamanhoFonte2 + "px");
     document.documentElement.style.setProperty("--tamanho-fonte-3", tamanhoFonte3 + "px");
     document.documentElement.style.setProperty("--tamanho-fonte-4", tamanhoFonte4 + "px");
+    document.documentElement.style.setProperty("--tamanho-fonte-5", tamanhoFonte5 + "px");
 
     setCookie("tamanhoFonte1", tamanhoFonte1);
     setCookie("tamanhoFonte2", tamanhoFonte2);
     setCookie("tamanhoFonte3", tamanhoFonte3);
     setCookie("tamanhoFonte4", tamanhoFonte4);
+    setCookie("tamanhoFonte5", tamanhoFonte5);
 }
 
 function diminuirFonte() {
@@ -165,6 +173,7 @@ function diminuirFonte() {
     tamanhoFonte2 -= 1;
     tamanhoFonte3 -= 1;
     tamanhoFonte4 -= 1;
+    tamanhoFonte5 -= 1;
 
 
 
@@ -172,9 +181,11 @@ function diminuirFonte() {
     document.documentElement.style.setProperty("--tamanho-fonte-2", tamanhoFonte2 + "px");
     document.documentElement.style.setProperty("--tamanho-fonte-3", tamanhoFonte3 + "px");
     document.documentElement.style.setProperty("--tamanho-fonte-4", tamanhoFonte4 + "px");
+    document.documentElement.style.setProperty("--tamanho-fonte-5", tamanhoFonte5 + "px");
 
     setCookie("tamanhoFonte1", tamanhoFonte1);
     setCookie("tamanhoFonte2", tamanhoFonte2);
     setCookie("tamanhoFonte3", tamanhoFonte3);
     setCookie("tamanhoFonte4", tamanhoFonte4);
+    setCookie("tamanhoFonte5", tamanhoFonte5);
 }
