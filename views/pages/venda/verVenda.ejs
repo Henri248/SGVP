@@ -1,8 +1,12 @@
 <%- contentFor('secao') %>
     <div class="container venda">
         <h1><a href="/venda" class="button"><img src="/images/icons/arrow_back_white_24dp.svg"
-                    alt=""></a> Venda 00001 <a href="/venda/delete/<%- venda[0].id %>"><img
-                    src="/images/icons/clear_black_24dp.svg" alt=""></a></h1>
+                    alt=""></a> Venda 00001 
+                    <% if (gestor) { %>
+                    <a href="/venda/delete/<%- venda[0].id %>"><img
+                    src="/images/icons/clear_black_24dp.svg" alt=""></a>
+                    <% } %>
+                </h1>
         <div class="venda-block">
             <p><strong>Data:</strong> <%- venda[0].data %></p>
             <p><strong>Vendedor:</strong> <%- venda[0].vendedor %></p>

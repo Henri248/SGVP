@@ -199,6 +199,12 @@ app.get('/vendedor', (req, res) => {
     } else {res.render('ACESSO NEGADO!')}
 })
 
+// GET -> Vendedor/Ver
+app.get('/vendedor/ver', (req, res) => {
+    if (req.cookies.gestor == 'true') {res.render('pages/vendedor/verVendedor', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })}
+    else {res.render('ACESSO NEGADO!')}
+})
+
 // GET -> Vendedor/Criar
 app.get('/vendedor/criar', (req, res) => {
     if (req.cookies.gestor == 'true') {res.render('pages/vendedor/criarVendedor', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })}
@@ -206,16 +212,33 @@ app.get('/vendedor/criar', (req, res) => {
 })
 
 // GET -> Vendedor/Editar
-app.get('/vendedor/editar', (req, res) => {
-    if (req.cookies.gestor == 'true') {res.render('pages/vendedor/editarVendedor', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })}
-    else {res.render('ACESSO NEGADO!')}
+app.get('/vendedor/editar/:v', (req, res) => {
+    if (req.cookies.gestor == 'true') {
+        (async () => {
+            const v = await db.selectVendedorID(req.params.v);
+            res.render('pages/vendedor/editarVendedor', {vendedor: v, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
+        })();
+    } else {res.render('ACESSO NEGADO!')}
 })
 
-// GET -> Vendedor/Ver
-app.get('/vendedor/ver', (req, res) => {
-    if (req.cookies.gestor == 'true') {res.render('pages/vendedor/verVendedor', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })}
-    else {res.render('ACESSO NEGADO!')}
+// POST -> Vendedor/Editar
+app.post('/vendedor/editar/post', (req, res) => {
+    if (req.cookies.gestor == 'true') {
+        (async () => {
+        let id = req.body.id
+        let meta = req.body.meta
+        let meta_atual = req.body.meta_atual
+
+        await db.updateMetaVendedorID(id, meta, meta_atual);
+
+        res.redirect('/vendedor')
+        })();
+    } else {res.render('ACESSO NEGADO!')}
 })
+    
+
+
+
 
 
 
