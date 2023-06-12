@@ -1,63 +1,91 @@
 <%- contentFor('secao') %>
     <div class="container">
-        <% async function logJSONData() { const response=await fetch("http://localhost:8000/produto"); const
-            jsonData=await response.json(); console.log(jsonData); } %>
+
     </div>
-    <script>
-        async function logJSONData() {
-            const response = await fetch("http://localhost:8000/produto");
-            const jsonData = await response.json();
-            console.log(jsonData);
-        }
-    </script>
 
     <div class="table container">
         <h1>Produtos</h1>
         <% if(gestor) { %>
-        <a href="/produto/criar" class="button create">
-            <img src="/images/icons/add_circle_outline_white_24dp.svg" alt="">
-            <p>Adicionar novo produto</p>
-        </a>
-        <% } %>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Preço (R$)</th>
-                    <th>Estoque</th>
-                    <th>Categoria</th>
-                    <th class="crud">Detalhes</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <% produtos.forEach(function(produto){%>
-
-                    <% if(produto.ativo) { %>
-
-
+            <a href="/produto/criar" class="button create">
+                <img src="/images/icons/add_circle_outline_white_24dp.svg" alt="">
+                <p>Adicionar novo produto</p>
+            </a>
+            <% } %>
+                <table>
+                    <thead>
                         <tr>
-                            <td><%- produto.id %></td>
-                            <td><%- produto.nome %></td>
-                            <td><%- produto.preco %></td>
-                            <td><%- produto.estoque %></td>
-                            <td><%- produto.categoria %></td>
-                            <td class="crud">
-                                <a href="/produto/ver/<%- produto.id %>"><img src="/images/icons/zoom_in_black_24dp.svg"
-                                        alt=""></a>
-                                <% if(gestor) { %>
-                                <a href="/produto/editar/<%- produto.id %>"><img src="/images/icons/edit_black_24dp.svg"
-                                        alt=""></a>
-                                <a href="/produto/delete/<%- produto.id %>"><img
-                                        src="/images/icons/clear_black_24dp.svg" alt=""></a>
-                                <% } %>
-
-                            </td>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Preço (R$)</th>
+                            <th>Estoque</th>
+                            <th>Categoria</th>
+                            <th class="crud">Detalhes</th>
                         </tr>
-                        <%  } %>
-                        <% }); %>
+                    </thead>
+                    <tbody id="produtos">
 
 
-        </table>
+
+
+
+                    </tbody>
+
+                </table>
     </div>
+
+    <script>
+        var produtos;
+        var gestor;
+        fetch("http://localhost:8000/produtos")
+            .then(response => {
+                response.json().then((data) => {
+
+                    produtos = data.produtos;
+                    gestor = data.gestor;
+                    console.log(produtos)
+                    listProdutos()
+                });
+            }).catch(err => {
+                console.error('Failed retrieving information', err);
+            });
+
+        function listProdutos() {
+            console.log(produtos)
+            for (var i = 0; i < produtos.length; i++) {
+                row1 = `<td>`+produtos[i].id+`</td>
+        <td>`+produtos[i].nome+`</</td>
+        <td>`+produtos[i].preco+`</</td>
+        <td>`+produtos[i].estoque+`</</td>
+        <td>`+produtos[i].categoria+`</</td>
+        <td class="crud">
+            <a href="/produto/ver/`+produtos[i].id+`"><img
+                    src="/images/icons/zoom_in_black_24dp.svg" alt=""></a>
+                        
+                <a href="/produto/editar/`+produtos[i].id+`"><img
+                        src="/images/icons/edit_black_24dp.svg" alt=""></a>
+                <a href="/produto/delete/`+produtos[i].id+`"><img
+                        src="/images/icons/clear_black_24dp.svg" alt=""></a>
+
+
+
+        </td>
+    </tr>`;
+        row2 = `<td>`+produtos[i].id+`</td>
+        <td>`+produtos[i].nome+`</</td>
+        <td>`+produtos[i].preco+`</</td>
+        <td>`+produtos[i].estoque+`</</td>
+        <td>`+produtos[i].categoria+`</</td>
+        <td class="crud">
+            <a href="/produto/ver/`+produtos[i].id+`"><img
+                    src="/images/icons/zoom_in_black_24dp.svg" alt=""></a>
+        </td>
+    </tr>`;
+            if(gestor){
+                document.getElementById("produtos").innerHTML += row1;
+            } else {
+                document.getElementById("produtos").innerHTML += row2;
+            }
+                        
+        }
+    }
+    </script>
