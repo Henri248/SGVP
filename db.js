@@ -102,7 +102,7 @@ async function insertVendedor(nome, email, telefone, endereco, meta, meta_atual)
     return res.rows;
 }
 
-async function updateVendedorID(id, meta, meta_atual) {   
+async function updateMetaVendedorID(id, meta, meta_atual) {   
     const client = await connect();
     const res = await client.query(`UPDATE vendedores SET meta = ${meta}, meta_atual = ${meta_atual} WHERE id = ${id}`);
     return res.rows;
@@ -158,7 +158,7 @@ async function selectVendas() {
 
 async function selectVendaID(id) {
     const client = await connect();
-    const res = await client.query(`SELECT v.id, v.data, vd.nome AS vendedor, c.nome AS cliente, SUM(p.preco * pv.quantidade) AS valor
+    const res = await client.query(`SELECT v.id, to_char(v.data, \'DD/MM/YYYY HH24:MI:SS\') AS data, vd.nome AS vendedor, c.nome AS cliente, SUM(p.preco * pv.quantidade) AS valor
 	FROM (SELECT * FROM vendas WHERE id = ${id}) v
 	INNER JOIN vendedores vd ON v.id_vendedor = vd.id
 	INNER JOIN clientes c ON v.id_cliente = c.id
@@ -194,4 +194,4 @@ async function deleteVendaID(id) {
 
 
 
-module.exports = {selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateVendedorID, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, insertVenda, selectProdutosVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario}
+module.exports = {selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateMetaVendedorID, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, insertVenda, selectProdutosVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario}

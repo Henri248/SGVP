@@ -23,11 +23,11 @@
                         <td><%- vendedor.meta %></td>
                         <td><%- vendedor.meta_atual %></td>
                         <td class="crud">
-                            <a href="/vendedor/ver"><img src="/images/icons/zoom_in_black_24dp.svg"
+                            <a href="/vendedor/ver/<%- vendedor.id %>"><img src="/images/icons/zoom_in_black_24dp.svg"
                                     alt=""></a>
-                            <a href="/vendedor/editar"><img src="/images/icons/edit_black_24dp.svg"
+                            <a href="/vendedor/editar/<%- vendedor.id %>"><img src="/images/icons/edit_black_24dp.svg"
                                     alt=""></a>
-                            <a href="#"><img src="/images/icons/clear_black_24dp.svg" alt=""></a>
+                            <a href="/vendedor/delete/<%- vendedor.id %>"><img src="/images/icons/clear_black_24dp.svg" alt=""></a>
                         </td>
                     </tr>
                     <% }); %>

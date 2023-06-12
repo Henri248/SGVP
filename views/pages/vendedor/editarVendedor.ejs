@@ -1,35 +1,19 @@
 <%- contentFor('secao') %>
     <div class="form container">
-        <h1><a href="/vendededor" class="button"><img src="/images/icons/arrow_back_white_24dp.svg"
-                    alt=""></a> Editar Vendedor A</h1>
-        <form method="post" enctype="multipart/form-data">
+        <h1><a href="/vendedor" class="button"><img src="/images/icons/arrow_back_white_24dp.svg"
+                    alt=""></a> Editar <%- vendedor[0].nome %></h1>
+        <form method="post" action="/vendedor/editar/post">
             <span>
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" value="Vendedor A" required>
-            </span>
-            <span>
-                <label for="imagem">Imagem:</label>
-                <input type="file" id="imagem" name="imagem" accept="image/*">
-            </span>
-            <span>
-                <label for="email">Email:</label>
-                <input type="text" id="email" name="email" value="vendedor_a@sgvp.com" required>
-            </span>
-            <span>
-                <label for="senha">Senha:</label>
-                <input type="password" id="senha" name="senha" value="88888" required>
-            </span>
-            <span>
-                <label for="telefone">Telefone:</label>
-                <input type="text" id="telefone" name="telefone" value="(88) 8888-8888" required>
-            </span>
-            <span>
-                <label for="endereco">Endereço:</label>
-                <input type="text" id="endereco" name="endereco" value="Rua A, 1, - Bairro A, Cidade A - AA" required>
+                <label for="id">ID:</label>
+                <input type="number" id="id" name="id" value="<%- vendedor[0].id %>">
             </span>
             <span>
                 <label for="meta">Meta (R$):</label>
-                <input type="number" step="0.01" id="meta" name="meta" value="1000.00" required>
+                <input type="number" step="0.01" id="meta" name="meta" value="<%- vendedor[0].meta %>" required>
+            </span>
+            <span>
+                <label for="meta_atual">Atual (R$):</label>
+                <input type="number" step="0.01" id="meta_atual" name="meta_atual" value="<%- vendedor[0].meta_atual %>" required>
             </span>
             <span id="buttons">
                 <button id="delete" type="submit">Excluir</button>
