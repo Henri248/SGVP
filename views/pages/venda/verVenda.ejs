@@ -1,18 +1,21 @@
 <%- contentFor('secao') %>
     <div class="container venda">
         <h1><a href="/venda" class="button"><img src="/images/icons/arrow_back_white_24dp.svg"
-                    alt=""></a> Venda 00001 <a href="./editarVenda.html"><img
-                    src="/images/icons/edit_black_24dp.svg" alt=""></a><a href="#"><img
+                    alt=""></a> Venda 00001 <a href="/venda/delete/<%- venda[0].id %>"><img
                     src="/images/icons/clear_black_24dp.svg" alt=""></a></h1>
         <div class="venda-block">
-            <p><strong>Data:</strong> 10/05/2023 - 16:00h</p>
-            <p><strong>Vendedor:</strong> 00001 - Vendedor A</p>
+            <p><strong>Data:</strong> <%- venda[0].data %></p>
+            <p><strong>Vendedor:</strong> <%- venda[0].vendedor %></p>
             <div>
-                <p><strong>Produtos:</strong></p>
+                <p><strong>Produtos: </strong></p>
                 <ul>
-                    <li>5x 00001 - Produto A - R$ 10,00</li>
+                    <% produtos_venda.forEach(produto => { %>
+                    <li>
+                        <%- produto.id %> - <%- produto.nome %> - <%- produto.quantidade %>x <%- produto.preco %>
+                    </li>
+                    <% }); %>
                 </ul>
             </div>
-            <p><strong>Valor total:</strong> R$ 50,00</p>
+            <p><strong>Valor total:</strong> <%- venda[0].valor %></p>
         </div>
     </div>
