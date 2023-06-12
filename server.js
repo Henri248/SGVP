@@ -168,9 +168,7 @@ app.get('/venda/ver/:v', (req, res) => {
     (async () => {
 
         const v = await db.selectVendaID(req.params.v);
-        console.log(v)
         const pv = await db.selectProdutosVenda(req.params.v);
-        console.log(pv)
 
         res.render('pages/venda/verVenda', { venda: v, produtos_venda: pv, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
     })();
@@ -182,10 +180,14 @@ app.get('/venda/criar', (req, res) => {
     else {res.render('ACESSO NEGADO!')}
 })
 
-// GET -> Venda/Ver
-app.get('/venda/ver', (req, res) => {
-    if (req.cookies.email) {res.render('pages/venda/verVenda', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })}
-    else {res.render('ACESSO NEGADO!')}
+// GET -> Venda/Deletar
+app.get('/venda/delete/:id', (req, res) => {
+    if (req.cookies.gestor == 'true') {
+        (async () => {
+        await db.deleteVendaID(req.params.id);
+        res.redirect('/venda')
+        })();
+    } else {res.render('ACESSO NEGADO!')}
 })
 
 // VENDEDOR --------------------------------------------------------------
