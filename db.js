@@ -25,7 +25,34 @@ async function connect() {
     return pool.connect();
 }
 
-//Produtos
+// Usuários ----------------------------------------------------------
+async function validarUsuario(email, senha) {
+    const client = await connect();
+    const res = await client.query(`SELECT * FROM usuarios WHERE email = '${email}' AND senha = '${senha}'`);
+    if (res.rows.length > 0) {
+        if (res.rows[0].gestor) {
+            return [true, true];
+        }
+        return [true, false];
+    } else {
+        return [false];
+    }
+}
+
+async function dadosUsuario(email) {
+    const client = await connect();
+    const res = await client.query(`SELECT vd.nome, u.email, u.senha, vd.telefone, vd.endereco, vd.meta, vd.meta_atual FROM (SELECT * FROM vendedores WHERE email = '${email}') vd INNER JOIN usuarios u ON vd.email = u.email`);
+    return res.rows;
+}
+
+async function updateUsuario(email, nome, novo_email, senha, telefone, endereco) {
+    const client = await connect();
+    const res = await client.query(`UPDATE usuarios SET email = '${novo_email}', senha = '${senha}' WHERE email = '${email}'`);
+    client.query(`UPDATE vendedores SET nome = '${nome}', email = '${novo_email}', telefone = '${telefone}', endereco = '${endereco}' WHERE email = '${email}'`);
+    return res.rows;
+}
+
+//Produtos -------------------------------------------------
 async function selectProdutos() {
     const client = await connect();
     const res = await client.query('SELECT id, nome, categoria, preco, estoque, ativo FROM produtos WHERE ativo = true');
@@ -56,7 +83,7 @@ async function activeProdutoID(id, ativo) {
     return res.rows;
 }
 
-//Vendedores
+//Vendedores ---------------------------------------------------
 async function selectVendedores() {
     const client = await connect();
     const res = await client.query('SELECT id, nome, meta, meta_atual FROM vendedores WHERE ativo = true ORDER BY id');
@@ -91,7 +118,7 @@ async function activeVendedorID(id, ativo) {
 }
 
 
-//Clientes
+//Clientes -----------------------------------------------------
 async function selectClientes() {
     const client = await connect();
     const res = await client.query('SELECT * FROM clientes');
@@ -122,7 +149,7 @@ async function deleteClienteID(id) {
     return res.rows;
 }
 
-//Vendas
+//Vendas -----------------------------------------------------
 async function selectVendas() {
     const client = await connect();
     const res = await client.query('SELECT v.id, vd.nome AS vendedor, c.nome AS cliente, SUM(p.preco * pv.quantidade) AS valor, to_char(v.data, \'DD/MM/YYYY HH24:MI:SS\') AS data FROM vendas v INNER JOIN vendedores vd ON v.id_vendedor = vd.id INNER JOIN clientes c ON v.id_cliente = c.id INNER JOIN produtos_vendas pv ON v.id = pv.id_venda INNER JOIN produtos p ON pv.id_produto = p.id GROUP BY v.id, vd.nome, c.nome, v.data ORDER BY data DESC');
@@ -147,6 +174,12 @@ async function insertVenda(id_vendedor, id_cliente) {
     return res.rows;
 }
 
+async function selectProdutosVenda(id_venda) {   
+    const client = await connect();
+    const res = await client.query(`SELECT p.id, p.nome, pv.quantidade, p.preco FROM (SELECT * FROM produtos_vendas WHERE id_venda = ${id_venda}) pv INNER JOIN produtos p ON pv.id_produto = p.id`);
+    return res.rows;
+}
+
 async function insertProdutoVenda(id_venda, id_produto, quantidade) {   
     const client = await connect();
     const res = await client.query(`INSERT INTO produtos_vendas (id_venda, id_produto, quantidade) VALUES (${id_venda}, ${id_produto}, ${quantidade})`);
@@ -160,31 +193,5 @@ async function deleteVendaID(id) {
 }
 
 
-// Usuários
-async function validarUsuario(email, senha) {
-    const client = await connect();
-    const res = await client.query(`SELECT * FROM usuarios WHERE email = '${email}' AND senha = '${senha}'`);
-    if (res.rows.length > 0) {
-        if (res.rows[0].gestor) {
-            return [true, true];
-        }
-        return [true, false];
-    } else {
-        return [false];
-    }
-}
 
-async function dadosUsuario(email) {
-    const client = await connect();
-    const res = await client.query(`SELECT vd.nome, u.email, u.senha, vd.telefone, vd.endereco, vd.meta, vd.meta_atual FROM (SELECT * FROM vendedores WHERE email = '${email}') vd INNER JOIN usuarios u ON vd.email = u.email`);
-    return res.rows;
-}
-
-async function updateUsuario(email, nome, novo_email, senha, telefone, endereco) {
-    const client = await connect();
-    const res = await client.query(`UPDATE usuarios SET email = '${novo_email}', senha = '${senha}' WHERE email = '${email}'`);
-    client.query(`UPDATE vendedores SET nome = '${nome}', email = '${novo_email}', telefone = '${telefone}', endereco = '${endereco}' WHERE email = '${email}'`);
-    return res.rows;
-}
-
-module.exports = {selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateVendedorID, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, insertVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario}
+module.exports = {selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateVendedorID, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, insertVenda, selectProdutosVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario}

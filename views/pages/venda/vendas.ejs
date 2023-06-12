@@ -25,11 +25,9 @@
                         <td><%- venda.valor %></td>
                         <td><%- venda.data %></td>
                         <td class="crud">
-                            <a href="/venda/ver"><img src="./images/icons/zoom_in_black_24dp.svg"
+                            <a href="/venda/ver/<%- venda.id %>"><img src="/images/icons/zoom_in_black_24dp.svg"
                                     alt=""></a>
-                            <a href="/venda/editar"><img src="/images/icons/edit_black_24dp.svg"
-                                    alt=""></a>
-                            <a href="#"><img src="/images/icons/clear_black_24dp.svg" alt=""></a>
+                            <a href="/venda/delete/<%- venda.id %>"><img src="/images/icons/clear_black_24dp.svg" alt=""></a>
                         </td>
                     </tr>
                     <% }); %>
