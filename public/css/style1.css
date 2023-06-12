@@ -11,6 +11,7 @@
     --tamanho-fonte-2: 20px;
     --tamanho-fonte-3: 24px;
     --tamanho-fonte-4: 40px;
+    --tamanho-fonte-5: 14px;
 }
 
 * {
@@ -162,6 +163,7 @@ table {
     background-color: var(--fundo-secundario);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
+    font-size: var(--tamanho-fonte-5);
 }
 
 thead {
