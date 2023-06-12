@@ -1,31 +1,6 @@
 <nav>
-    <p id="logo">SGVP</p>
-    <ul>
-        <li><a href="/produto">Produtos</a></li>
-        <li><a href="/venda">Vendas</a></li>
-        <% if (1) { %>
-            <li><a href="/vendedor">Vendedores</a></li>
-        <% } %>
-        
-    </ul>
-
     <span>
-        <a href="/perfil">
-            <img src="./public/images/icons/account_circle_white_24dp.svg" alt="">
-            Usuário
-        </a>
-
-        <a href="/dashboard">
-            <img src="./public/images/icons/dashboard_white_24dp.svg" alt="">
-            Dashboard
-        </a>
-
-        <a href="/login">
-            <img src="./public/images/icons/logout_white_24dp.svg" alt="">
-            Logout
-        </a>
-    </span>
-
+    <p id="logo">SGVP</p>
     <button onclick="swapLightAndDarkMode()">
         Dark
     </button>
@@ -37,4 +12,41 @@
     <button onclick="diminuirFonte()">
         -
     </button>
+    </span>
+    <ul>
+        <li><a href="/produto">Produtos</a></li>
+        <% if (email) { %>
+            <li><a href="/venda">Vendas</a></li>
+            <% if (gestor) { %>
+                <li><a href="/vendedor">Vendedores</a></li>
+            <% } %>
+        <% } %>
+        
+    </ul>
+
+    <span>
+        <% if (email) { %>
+        <a href="/perfil">
+            <img src="/images/icons/account_circle_white_24dp.svg" alt="">
+            <%= email.split("@")[0] %>
+        </a>
+
+        <a href="/dashboard">
+            <img src="/images/icons/dashboard_white_24dp.svg" alt="">
+            Dashboard
+        </a>
+
+        <a href="/login">
+            <img src="/images/icons/logout_white_24dp.svg" alt="">
+            Logout
+        </a>
+        <% } else { %>
+            <a href="/login">
+            <img src="/images/icons/login_white_24dp.svg" alt="">
+            Login
+            </a>
+        <% } %>
+    </span>
+
+    
 </nav>
