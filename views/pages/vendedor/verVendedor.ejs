@@ -1,23 +1,23 @@
 <%- contentFor('secao') %>
     <div class="details container">
-        <h1><a href="/vendededor" class="button"><img src="/images/icons/arrow_back_white_24dp.svg"
-                    alt=""></a> Vendedor A <a href="/vendededor/editar"><img
-                    src="/images/icons/edit_black_24dp.svg" alt=""></a><a href="#"><img
+        <h1><a href="/vendedor" class="button"><img src="/images/icons/arrow_back_white_24dp.svg"
+                    alt=""></a> <%- vendedor[0].nome %>  <a href="/vendedor/editar/<%- vendedor[0].id %>"><img
+                    src="/images/icons/edit_black_24dp.svg" alt=""></a><a href="/vendedor/delete/<%- vendedor[0].id %>"><img
                     src="/images/icons/clear_black_24dp.svg" alt=""></a></h1>
         <div class="grid-produto">
             <div class="img">
                 <img src="/images/vendedores/vendedorA.png" alt="">
             </div>
             <div class="info">
-                <p><b>ID:</b> 00001</p>
-                <p><b>Nome:</b> Vendedor A</p>
-                <p><b>Meta (R$):</b> 1000,00</p>
-                <p><b>Atual (R$):</b> 500,00</p>
+                <p><b>ID:</b> <%- vendedor[0].id %></p>
+                <p><b>Nome:</b> <%- vendedor[0].nome %></p>
+                <p><b>Meta (R$):</b> <%- vendedor[0].meta %></p>
+                <p><b>Atual (R$):</b> <%- vendedor[0].meta_atual %></p>
             </div>
             <div class="description">
-                <p><b>Email</b> vendedor_a@sgvp.com</p>
-                <p><b>Telefone</b> (88) 8888-8888</p>
-                <p><b>Endereço: </b> Rua A, 1, - Bairro A, Cidade A - AA</p>
+                <p><b>Email</b> <%- vendedor[0].email %></p>
+                <p><b>Telefone</b> <%- vendedor[0].telefone %></p>
+                <p><b>Endereço: </b> <%- vendedor[0].endereco %></p>
                 <br>
                 <p><b>Últimas vendas:</b></p>
                 <div class="table">

@@ -200,15 +200,36 @@ app.get('/vendedor', (req, res) => {
 })
 
 // GET -> Vendedor/Ver
-app.get('/vendedor/ver', (req, res) => {
-    if (req.cookies.gestor == 'true') {res.render('pages/vendedor/verVendedor', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })}
-    else {res.render('ACESSO NEGADO!')}
+app.get('/vendedor/ver/:v', (req, res) => {
+    (async () => {
+
+        const v = await db.selectVendedorID(req.params.v);
+
+        res.render('pages/vendedor/verVendedor', { vendedor: v, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
+    })();
 })
 
 // GET -> Vendedor/Criar
 app.get('/vendedor/criar', (req, res) => {
     if (req.cookies.gestor == 'true') {res.render('pages/vendedor/criarVendedor', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })}
     else {res.render('ACESSO NEGADO!')}
+})
+
+// POST -> Vendedor/Criar
+app.post('/vendedor/criar/post', (req, res) => {
+    if (req.cookies.gestor == 'true') {
+        (async () => {
+        let nome = req.body.nome
+        let email = req.body.email
+        let telefone = req.body.telefone
+        let endereco = req.body.endereco
+        let meta = req.body.meta
+
+        await db.insertVendedor(nome, email, telefone, endereco, meta, 0);
+
+        res.redirect('/vendedor')
+        })();
+    } else {res.render('ACESSO NEGADO!')}
 })
 
 // GET -> Vendedor/Editar
@@ -235,7 +256,16 @@ app.post('/vendedor/editar/post', (req, res) => {
         })();
     } else {res.render('ACESSO NEGADO!')}
 })
-    
+
+// GET -> Vendedor/Deletar
+app.get('/vendedor/delete/:id', (req, res) => {
+    if (req.cookies.gestor == 'true') {
+        (async () => {
+        await db.activeVendedorID(req.params.id, false);
+        res.redirect('/vendedor')
+        })();
+    } else {res.render('ACESSO NEGADO!')}
+})
 
 
 
