@@ -55,7 +55,7 @@ async function updateUsuario(email, nome, novo_email, senha, telefone, endereco)
 //Produtos -------------------------------------------------
 async function selectProdutos() {
     const client = await connect();
-    const res = await client.query('SELECT id, nome, categoria, preco, estoque, ativo FROM produtos WHERE ativo = true');
+    const res = await client.query('SELECT id, nome, categoria, preco, estoque, ativo FROM produtos WHERE ativo = true ORDER BY id');
     return res.rows;
 }
 
@@ -86,7 +86,7 @@ async function activeProdutoID(id, ativo) {
 //Vendedores ---------------------------------------------------
 async function selectVendedores() {
     const client = await connect();
-    const res = await client.query('SELECT id, nome, meta, meta_atual FROM vendedores WHERE ativo = true ORDER BY id');
+    const res = await client.query('SELECT * FROM vendedores WHERE ativo = true ORDER BY id');
     return res.rows;
 }
 
@@ -156,6 +156,12 @@ async function selectVendas() {
     return res.rows;
 }
 
+async function selectVendasVendedorID(id) {
+    const client = await connect();
+    const res = await client.query(`SELECT v.id, vd.nome AS vendedor, c.nome AS cliente, SUM(p.preco * pv.quantidade) AS valor, to_char(v.data, \'DD/MM/YYYY HH24:MI:SS\') AS data FROM vendas v INNER JOIN (SELECT * FROM vendedores WHERE id = ${id}) vd ON v.id_vendedor = vd.id INNER JOIN clientes c ON v.id_cliente = c.id INNER JOIN produtos_vendas pv ON v.id = pv.id_venda INNER JOIN produtos p ON pv.id_produto = p.id GROUP BY v.id, vd.nome, c.nome, v.data ORDER BY data DESC`);
+    return res.rows;
+}
+
 async function selectVendaID(id) {
     const client = await connect();
     const res = await client.query(`SELECT v.id, to_char(v.data, \'DD/MM/YYYY HH24:MI:SS\') AS data, vd.nome AS vendedor, c.nome AS cliente, SUM(p.preco * pv.quantidade) AS valor
@@ -170,7 +176,7 @@ async function selectVendaID(id) {
 
 async function insertVenda(id_vendedor, id_cliente) {   
     const client = await connect();
-    const res = await client.query(`INSERT INTO vendas (id_vendedor, id_cliente, data) VALUES (${id_vendedor}, ${id_cliente}, NOW())`);
+    const res = await client.query(`INSERT INTO vendas (id_vendedor, id_cliente, data) VALUES (${id_vendedor}, ${id_cliente}, NOW()) RETURNING *;`);
     return res.rows;
 }
 
@@ -194,4 +200,4 @@ async function deleteVendaID(id) {
 
 
 
-module.exports = {selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateMetaVendedorID, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, insertVenda, selectProdutosVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario}
+module.exports = {selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateMetaVendedorID, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, selectVendasVendedorID, insertVenda, selectProdutosVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario}

@@ -2,7 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const db = require('./db')
 const cookieParser = require('cookie-parser');
-const expressLayouts = require('express-ejs-layouts')
+const expressLayouts = require('express-ejs-layouts');
+const { type } = require('express/lib/response');
 
 
 
@@ -99,7 +100,7 @@ app.get('/produto/ver/:p', (req, res) => {
 // GET -> Produto/Criar
 app.get('/produto/criar', (req, res) => {
     if (req.cookies.gestor == 'true') {res.render('pages/produto/criarProduto', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })}
-    else {res.render('ACESSO NEGADO!')}
+    else {res.send('ACESSO NEGADO!')}
 
 })
 
@@ -117,7 +118,7 @@ app.post('/produto/criar/post', (req, res) => {
 
         res.redirect('/produto')
         })();
-    } else {res.render('ACESSO NEGADO!')}
+    } else {res.send('ACESSO NEGADO!')}
 })
 
 // GET -> Produto/Editar
@@ -129,7 +130,7 @@ app.get('/produto/editar/:p', (req, res) => {
 
         res.render('pages/produto/editarProduto', { produto: p, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
         })();
-    } else {res.render('ACESSO NEGADO!')}
+    } else {res.send('ACESSO NEGADO!')}
 
 })
 
@@ -148,7 +149,7 @@ app.post('/produto/editar/post', (req, res) => {
 
         res.redirect('/produto')
         })();
-    } else {res.render('ACESSO NEGADO!')}
+    } else {res.send('ACESSO NEGADO!')}
 })
 
 // GET -> Produto/Deletar
@@ -158,7 +159,7 @@ app.get('/produto/delete/:id', (req, res) => {
         await db.activeProdutoID(req.params.id, false);
         res.redirect('/produto')
         })();
-    } else {res.render('ACESSO NEGADO!')}
+    } else {res.send('ACESSO NEGADO!')}
 })
 
 // VENDA --------------------------------------------------------------
@@ -184,14 +185,40 @@ app.get('/venda/ver/:v', (req, res) => {
 
 // GET -> Venda/Criar (implementar)
 app.get('/venda/criar', (req, res) => {
-    if (req.cookies.gestor == 'true') {res.render('pages/venda/criarVenda', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })}
-    else {res.render('ACESSO NEGADO!')}
+    if (req.cookies.email) {(async () => {
+        const v = await db.selectVendedores();
+        const c = await db.selectClientes();
+        const p = await db.selectProdutos();
+        res.render('pages/venda/criarVenda', { vendedores: v, clientes: c, produtos: p, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
+        })();
+    } else {res.send('ACESSO NEGADO!')}
 
 })
 
-// GET -> Venda/Editar
-app.get('/venda/editar', (req, res) => {
-    res.render('pages/venda/editarVenda', { email: req.cookies.email, gestor: req.cookies.gestor == 'true' ? true : false })
+// POST -> Venda/Criar
+app.post('/Venda/criar/post', (req, res) => {
+    if (req.cookies.email) {
+        (async () => {
+        let vendedor = req.body.vendedor;
+        let cliente = req.body.cliente;
+        let produtos = req.body.produto_venda;
+        typeof(produtos) == 'string' ? produtos = [parseInt(produtos)] : undefined;
+        let quantidades = req.body.quantidade;
+        typeof(quantidades) == 'string' ? quantidades = [parseInt(quantidades)] : undefined;
+        
+        venda = await db.insertVenda(vendedor, cliente);
+        
+        let contador = 0;
+        produtos.forEach(produto => {
+            db.insertProdutoVenda(venda[0].id, produto, quantidades[contador]);
+            contador++
+        });
+
+        
+        
+        res.redirect('/venda')
+        })();
+    } else {res.send('ACESSO NEGADO!')}
 })
 
 // GET -> Venda/Deletar
@@ -201,7 +228,7 @@ app.get('/venda/delete/:id', (req, res) => {
         await db.deleteVendaID(req.params.id);
         res.redirect('/venda')
         })();
-    } else {res.render('ACESSO NEGADO!')}
+    } else {res.send('ACESSO NEGADO!')}
 })
 
 // VENDEDOR --------------------------------------------------------------
@@ -212,7 +239,7 @@ app.get('/vendedor', (req, res) => {
         const v = await db.selectVendedores();
         res.render('pages/vendedor/vendedores', { vendedores: v, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
         })();
-    } else {res.render('ACESSO NEGADO!')}
+    } else {res.send('ACESSO NEGADO!')}
 
 })
 
@@ -221,15 +248,16 @@ app.get('/vendedor/ver/:v', (req, res) => {
     (async () => {
 
         const v = await db.selectVendedorID(req.params.v);
+        const vd = await db.selectVendasVendedorID(req.params.v);
 
-        res.render('pages/vendedor/verVendedor', { vendedor: v, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
+        res.render('pages/vendedor/verVendedor', { vendedor: v, vendas: vd, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
     })();
 })
 
 // GET -> Vendedor/Criar
 app.get('/vendedor/criar', (req, res) => {
     if (req.cookies.gestor == 'true') {res.render('pages/vendedor/criarVendedor', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })}
-    else {res.render('ACESSO NEGADO!')}
+    else {res.send('ACESSO NEGADO!')}
 })
 
 // POST -> Vendedor/Criar
@@ -246,7 +274,7 @@ app.post('/vendedor/criar/post', (req, res) => {
 
         res.redirect('/vendedor')
         })();
-    } else {res.render('ACESSO NEGADO!')}
+    } else {res.send('ACESSO NEGADO!')}
 })
 
 // GET -> Vendedor/Editar
@@ -256,7 +284,7 @@ app.get('/vendedor/editar/:v', (req, res) => {
             const v = await db.selectVendedorID(req.params.v);
             res.render('pages/vendedor/editarVendedor', {vendedor: v, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
         })();
-    } else {res.render('ACESSO NEGADO!')}
+    } else {res.send('ACESSO NEGADO!')}
 })
 
 // POST -> Vendedor/Editar
@@ -271,7 +299,7 @@ app.post('/vendedor/editar/post', (req, res) => {
 
         res.redirect('/vendedor')
         })();
-    } else {res.render('ACESSO NEGADO!')}
+    } else {res.send('ACESSO NEGADO!')}
 })
 
 // GET -> Vendedor/Deletar
@@ -281,7 +309,7 @@ app.get('/vendedor/delete/:id', (req, res) => {
         await db.activeVendedorID(req.params.id, false);
         res.redirect('/vendedor')
         })();
-    } else {res.render('ACESSO NEGADO!')}
+    } else {res.send('ACESSO NEGADO!')}
 })
 
 
