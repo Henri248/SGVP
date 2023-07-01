@@ -48,7 +48,7 @@ app.post('/verifica_login', (req, res) => {
         if (login[0]) {
             res.cookie('email', email);
             res.cookie('gestor', login[1]);
-            res.redirect('/dashboard')
+            res.redirect('/produto')
         } else {
             res.redirect('/login')
         }
@@ -63,8 +63,53 @@ app.get('/dashboard', (req, res) => {
 
 // GET -> Perfil
 app.get('/perfil', (req, res) => {
-    if (req.cookies.email) {res.render('pages/perfil', { email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })}
-    else {res.redirect('/login')}
+    if (req.cookies.email) {
+        if (req.cookies.gestor == 'true') {
+            (async () => {
+                const u = await db.dadosGestor(req.cookies.email);
+                res.render('pages/perfilGestor', {usuario: u, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
+            })();
+        }
+        else {
+            (async () => {
+                const u = await db.dadosUsuario(req.cookies.email);
+                const vd = await db.selectVendasVendedorID(u[0].id);
+                res.render('pages/perfil', {usuario: u, vendas: vd, email: req.cookies.email, gestor: req.cookies.gestor=='true' ? true : false })
+            })();
+        }
+    } else {res.send('ACESSO NEGADO!')}
+})
+
+// POST -> Perfil
+app.post('/perfil/post', (req, res) => {
+    if (req.cookies.email) {
+        if (req.cookies.gestor == 'true') {
+            (async () => {
+                let email = req.cookies.email
+                let novo_email = req.body.email
+                let senha = req.body.senha
+
+                await db.updateGestor(email, novo_email, senha);
+                res.cookie('email', novo_email)
+                res.redirect('/perfil')
+                })();
+        }
+        else {
+            (async () => {
+                let email = req.cookies.email
+                let novo_email = req.body.email
+                let senha = req.body.senha
+                let nome = req.body.nome
+                let telefone = req.body.telefone
+                let endereco = req.body.endereco
+        
+                await db.updateUsuario(email, nome, novo_email, senha, telefone, endereco);
+                res.cookie('email', novo_email)
+                res.redirect('/perfil')
+                })();
+        }
+    } else {res.send('ACESSO NEGADO!')}
+
 })
 
 

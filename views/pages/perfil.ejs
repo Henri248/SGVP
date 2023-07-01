@@ -6,26 +6,30 @@
                 <div class="items-perfil">
                     <ul>
                         <li class="item-perfil">
-                            Pedro Silva
+                            <%- usuario[0].nome %>
                         </li>
-                        <li class="item-perfil">
+                        <li class="item-perfil secao-perfil" id="dados" style="cursor: pointer; color: white" onclick="arternarVisualizacao('dados')">
+                            Dados
+                        </li>
+                        <li class="item-perfil secao-perfil" id="vendas" style="cursor: pointer;" onclick="arternarVisualizacao('vendas')">
                             Vendas
                         </li>
-                        <li class="item-perfil">
-                            Produtos
-                        </li>
+                        
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="perfil-2">
+        <div class="perfil-2 dados">
             <div class="items-perfil-2 item-1">
-                <h2>Sobre</h2>
-                <form method="post" enctype="multipart/form-data">
+                <h2>Dados</h2>
+                <form method="post" action="/perfil/post">
                     <div class="info">
-                        <p><label>Nome Completo <input type="text" value="Pedro"></label></p>
-                        <p><label>Email <input type="email" value="pedro123@gmail.com"></label></p>
-                        <p><label>Endereço <input type="text" value="Pedro"></label></p>
+                        <p><label>Email: <input type="email" name="email" value="<%- usuario[0].email %>"></label></p>
+                        <p><label>Senha: <input type="password" name="senha" value="<%- usuario[0].senha %>"></label></p>
+                        <p><label>Nome: <input type="text" name="nome" value="<%- usuario[0].nome %>"></label></p>
+                        <p></p><label for="imagem">Imagem: <input type="file" id="imagem" name="imagem" accept="image/*"></label>
+                        <p><label>Telefone: <input type="text" name="telefone" value="<%- usuario[0].telefone %>"></label></p>
+                        <p><label>Endereço: <input type="text" name="endereco" value="<%- usuario[0].endereco %>"></label></p>
                         <p>
                             <span id="buttons">
                                 <button type="submit">Atualizar</button>
@@ -34,14 +38,59 @@
                     </div>
                 </form>
             </div>
-
+        </div>
+        <div class="perfil-2 vendas" style="display: none">
             <div class="items-perfil-2 item-2">
                 <h2>Vendas</h2>
                 <div class="info">
-                    <p><label>Número de Vendas por Dia: </label>100</p>
-                    <p></p><label>Número de Vendas por Mês: </label>2000
-                    5
+                    <p><label>Meta (R$): </label><%- usuario[0].meta_atual %> / <%- usuario[0].meta %></p>
+
+                    <p><b>Últimas vendas:</b></p>
+                    <div class="table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Valor (R$)</th>
+                                    <th>Cliente</th>
+                                    <th>Data</th>
+                                    <th class="crud">Detalhes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% vendas.forEach(function(venda){%>
+                                    <tr>
+                                        <td><%- venda.valor %></td>
+                                        <td><%- venda.cliente %></td>
+                                        <td><%- venda.data %></td>
+                                        <td class="crud">
+                                            <a href="/venda/ver/<%- venda.id %>"><img src="/images/icons/zoom_in_black_24dp.svg" alt=""></a>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                            </tbody>  
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    
+    <script>
+
+        function arternarVisualizacao(secao) {
+            var secoes = [...document.getElementsByClassName('perfil-2')];
+            var secao_alvo = [...document.getElementsByClassName(secao)];
+
+            var itens_menu = [...document.getElementsByClassName('secao-perfil')];
+            var item_alvo = document.getElementById(secao);
+            console.log(item_alvo);
+
+            secoes.forEach(s => s.style.display = 'none');
+            itens_menu.forEach(i => i.style.color = 'black');
+
+            secao_alvo.forEach(s => s.style.display = 'block');
+            item_alvo.style.color = 'white'
+
+        }
+    </script>

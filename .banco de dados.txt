@@ -1,0 +1,232 @@
+
+--CRIAÇÃO DE TABELAS
+-- drop table produtos, usuarios, vendedores, produtos_vendas, vendas, clientes cascade
+
+CREATE TABLE produtos (
+	id serial PRIMARY KEY,
+	nome varchar(50) UNIQUE NOT NULL,
+	categoria varchar(30),
+	preco decimal(10,2) NOT NULL,
+	estoque integer NOT NULL CHECK (estoque >= 0),
+	descricao varchar(200),
+	ativo boolean NOT NULL
+);
+
+CREATE TABLE vendedores (
+	id serial PRIMARY KEY,
+	nome varchar(50) NOT NULL,
+	email varchar(50) UNIQUE NOT NULL,
+	telefone varchar(20) UNIQUE,
+	endereco varchar(200),
+	meta decimal(10,2) CHECK (meta >=0) NOT NULL,
+	meta_atual decimal(10,2),
+	ativo boolean
+);
+
+CREATE TABLE usuarios (
+	email varchar(50) PRIMARY KEY,
+	senha varchar(50) NOT NULL,
+	gestor boolean
+);
+
+CREATE TABLE clientes (
+	id serial PRIMARY KEY,
+	nome varchar(50) NOT NULL,
+	email varchar(50) UNIQUE,
+	telefone varchar(20) UNIQUE,
+	endereco varchar(200)
+);
+
+CREATE TABLE vendas (
+	id serial PRIMARY KEY,
+	id_vendedor integer NOT NULL,
+	id_cliente integer,
+	data TIMESTAMP,
+	FOREIGN KEY (id_vendedor) REFERENCES vendedores (id),
+	FOREIGN KEY (id_cliente) REFERENCES clientes (id)
+);
+
+CREATE TABLE produtos_vendas (
+	id serial PRIMARY KEY,
+	id_venda integer NOT NULL,
+	id_produto integer NOT NULL,
+	quantidade integer CHECK (quantidade > 0) NOT NULL,
+	FOREIGN KEY (id_venda) REFERENCES vendas (id),
+	FOREIGN KEY (id_produto) REFERENCES produtos (id)
+);
+
+-------------------------------------------------------------------------
+
+--ALIMENTAR TABELAS
+
+INSERT INTO produtos (nome, categoria, preco, estoque, descricao, ativo)
+VALUES
+    ('Produto 1', 'Categoria A', 10.99, 100, 'Descrição do Produto 1', true),
+    ('Produto 2', 'Categoria B', 19.99, 50, 'Descrição do Produto 2', true),
+    ('Produto 3', 'Categoria A', 5.99, 200, 'Descrição do Produto 3', true),
+    ('Produto 4', 'Categoria C', 8.50, 150, 'Descrição do Produto 4', true),
+    ('Produto 5', 'Categoria B', 12.75, 80, 'Descrição do Produto 5', true),
+    ('Produto 6', 'Categoria A', 7.25, 120, 'Descrição do Produto 6', true),
+    ('Produto 7', 'Categoria B', 14.99, 90, 'Descrição do Produto 7', true),
+    ('Produto 8', 'Categoria C', 9.99, 180, 'Descrição do Produto 8', true),
+    ('Produto 9', 'Categoria A', 6.50, 70, 'Descrição do Produto 9', false),
+    ('Produto 10', 'Categoria B', 11.25, 110, 'Descrição do Produto 10', true);
+	
+INSERT INTO usuarios (email, senha, gestor)
+VALUES
+	('vendedor1@example.com', 'senha1', false),
+    ('vendedor2@example.com', 'senha2', false),
+	('vendedor3@example.com', 'senha3', false),
+	('vendedor4@example.com', 'senha4', false),
+	('vendedor5@example.com', 'senha5', false),
+	('vendedor6@example.com', 'senha6', false),
+	('vendedor7@example.com', 'senha7', false),
+	('vendedor8@example.com', 'senha8', false),
+	('vendedor9@example.com', 'senha9', false),
+	('gestor@example.com', '12345', true);
+	
+
+INSERT INTO vendedores (nome, email, telefone, endereco, meta, meta_atual, ativo)
+VALUES
+    ('Vendedor 1', 'vendedor1@example.com', '123456789', 'Endereço 1', 1000.00, 500.00, true),
+    ('Vendedor 2', 'vendedor2@example.com', '987654321', 'Endereço 2', 1500.00, 1200.00, true),
+    ('Vendedor 3', 'vendedor3@example.com', '555555555', 'Endereço 3', 2000.00, 1800.00, true),
+    ('Vendedor 4', 'vendedor4@example.com', '444444444', 'Endereço 4', 1200.00, 900.00, true),
+    ('Vendedor 5', 'vendedor5@example.com', '777777777', 'Endereço 5', 1800.00, 1500.00, true),
+    ('Vendedor 6', 'vendedor6@example.com', '111111111', 'Endereço 6', 2500.00, 2000.00, true),
+    ('Vendedor 7', 'vendedor7@example.com', '222222222', 'Endereço 7', 3000.00, 2800.00, true),
+    ('Vendedor 8', 'vendedor8@example.com', '999999999', 'Endereço 8', 1500.00, 1300.00, true),
+    ('Vendedor 9', 'vendedor9@example.com', '666666666', 'Endereço 9', 2200.00, 1900.00, true);	
+	
+INSERT INTO clientes (nome, email, telefone, endereco)
+VALUES
+    ('Cliente 1', 'cliente1@example.com', '123456789', 'Endereço 1'),
+    ('Cliente 2', 'cliente2@example.com', '987654321', 'Endereço 2'),
+    ('Cliente 3', 'cliente3@example.com', '555555555', 'Endereço 3'),
+    ('Cliente 4', 'cliente4@example.com', '444444444', 'Endereço 4'),
+    ('Cliente 5', 'cliente5@example.com', '777777777', 'Endereço 5'),
+    ('Cliente 6', 'cliente6@example.com', '111111111', 'Endereço 6'),
+    ('Cliente 7', 'cliente7@example.com', '222222222', 'Endereço 7'),
+    ('Cliente 8', 'cliente8@example.com', '999999999', 'Endereço 8'),
+    ('Cliente 9', 'cliente9@example.com', '666666666', 'Endereço 9'),
+    ('Cliente 10', 'cliente10@example.com', '888888888', 'Endereço 10');
+	
+
+INSERT INTO vendas (id_vendedor, id_cliente, data)
+VALUES 
+    (1, 1, '2023-06-01'),
+    (2, 3, '2023-06-02'),
+    (3, 2, '2023-06-03'),
+    (1, 4, '2023-06-04'),
+    (2, 5, '2023-06-05'),
+    (9, 6, NOW());
+
+
+INSERT INTO produtos_vendas (id_venda, id_produto, quantidade)
+VALUES 
+	(1, 1, 2),
+	(1, 2, 1),
+	(2, 4, 1),
+	(3, 1, 1),
+	(3, 2, 1),
+	(3, 3, 1),
+	(4, 6, 1),
+	(5, 2, 4),
+	(6, 9, 2);
+	
+-----------------------------------------------------------------------------
+
+--TRIGGERS
+
+-- drop function aumentar_meta_vendedor, diminuir_meta_vendedor, excluir_usuario, criar_usuario cascade
+
+-- drop function aumentar_meta_vendedor cascade
+CREATE FUNCTION aumentar_meta_vendedor() RETURNS TRIGGER AS $$
+DECLARE
+    preco_produto decimal(10,2);
+	valor_total_produto decimal(10,2);
+BEGIN
+    SELECT preco INTO preco_produto FROM produtos WHERE id = NEW.id_produto;
+
+    valor_total_produto := preco_produto * NEW.quantidade;
+
+	UPDATE produtos
+	SET estoque = estoque - NEW.quantidade
+	WHERE id = NEW.id_produto;
+	
+    UPDATE vendedores
+    SET meta_atual = meta_atual + valor_total_produto
+    WHERE id = (SELECT id_vendedor FROM vendas WHERE id = NEW.id_venda);
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER aumentar_meta_vendedor
+AFTER INSERT ON produtos_vendas
+FOR EACH ROW
+EXECUTE FUNCTION aumentar_meta_vendedor();
+
+
+-- drop function diminuir_meta_vendedor cascade
+CREATE FUNCTION diminuir_meta_vendedor() RETURNS TRIGGER AS $$
+DECLARE
+	row RECORD;
+    preco_produto decimal(10,2);
+	valor_total decimal(10,2) := 0;
+BEGIN
+	FOR row IN SELECT * FROM produtos_vendas WHERE id_venda = OLD.id LOOP
+	
+    SELECT preco INTO preco_produto FROM produtos WHERE id = row.id_produto;
+
+    valor_total := valor_total + (preco_produto * row.quantidade);
+	
+	END LOOP;
+	
+	DELETE FROM produtos_vendas WHERE id_venda = OLD.id;
+	
+	UPDATE vendedores
+    SET meta_atual = meta_atual - valor_total
+    WHERE id = OLD.id_vendedor;
+	
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER diminuir_meta_vendedor
+BEFORE DELETE ON vendas
+FOR EACH ROW
+EXECUTE FUNCTION diminuir_meta_vendedor();
+
+-- drop function excluir_usuario cascade
+CREATE FUNCTION excluir_usuario() RETURNS TRIGGER AS $$
+BEGIN
+	DELETE FROM usuarios WHERE email = NEW.email;	
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER excluir_usuario
+AFTER UPDATE ON vendedores
+FOR EACH ROW
+WHEN (NEW.ativo = false)
+EXECUTE FUNCTION excluir_usuario();
+
+-- drop function criar_usuario cascade
+CREATE FUNCTION criar_usuario() RETURNS TRIGGER AS $$
+BEGIN
+	INSERT INTO usuarios (email, senha, gestor) VALUES(NEW.email, '123', false);
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER criar_usuario
+AFTER INSERT ON vendedores
+FOR EACH ROW
+EXECUTE FUNCTION criar_usuario();
+
+
+
+    
+	
+

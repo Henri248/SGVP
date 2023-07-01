@@ -41,7 +41,7 @@ async function validarUsuario(email, senha) {
 
 async function dadosUsuario(email) {
     const client = await connect();
-    const res = await client.query(`SELECT vd.nome, u.email, u.senha, vd.telefone, vd.endereco, vd.meta, vd.meta_atual FROM (SELECT * FROM vendedores WHERE email = '${email}') vd INNER JOIN usuarios u ON vd.email = u.email`);
+    const res = await client.query(`SELECT vd.id, vd.nome, u.email, u.senha, vd.telefone, vd.endereco, vd.meta, vd.meta_atual FROM (SELECT * FROM vendedores WHERE email = '${email}') vd INNER JOIN usuarios u ON vd.email = u.email`);
     return res.rows;
 }
 
@@ -49,6 +49,18 @@ async function updateUsuario(email, nome, novo_email, senha, telefone, endereco)
     const client = await connect();
     const res = await client.query(`UPDATE usuarios SET email = '${novo_email}', senha = '${senha}' WHERE email = '${email}'`);
     client.query(`UPDATE vendedores SET nome = '${nome}', email = '${novo_email}', telefone = '${telefone}', endereco = '${endereco}' WHERE email = '${email}'`);
+    return res.rows;
+}
+
+async function dadosGestor(email) {
+    const client = await connect();
+    const res = await client.query(`SELECT email, senha FROM usuarios WHERE email = '${email}'`);
+    return res.rows;
+}
+
+async function updateGestor(email, novo_email, senha) {
+    const client = await connect();
+    const res = await client.query(`UPDATE usuarios SET email = '${novo_email}', senha = '${senha}' WHERE email = '${email}'`);
     return res.rows;
 }
 
@@ -200,4 +212,4 @@ async function deleteVendaID(id) {
 
 
 
-module.exports = {selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateMetaVendedorID, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, selectVendasVendedorID, insertVenda, selectProdutosVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario}
+module.exports = {selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateMetaVendedorID, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, selectVendasVendedorID, insertVenda, selectProdutosVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario, dadosGestor, updateGestor}
