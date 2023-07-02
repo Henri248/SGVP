@@ -1,39 +1,65 @@
+///////////////////////////////////  CONFIGURAÇÃO DO APP  ///////////////////////////////////
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const db = require('./db')
 const cookieParser = require('cookie-parser');
-const expressLayouts = require('express-ejs-layouts');
+const expressLayouts = require('express-ejs-layouts')
+const fs = require('fs')
 const { type } = require('express/lib/response');
 
 
 
 const app = express()
-const porta = 8000;
-
-
-
-app.set('view engine', 'ejs')
-
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('public'))
 app.use(cookieParser())
 app.use(expressLayouts)
+app.set('view engine', 'ejs')
 
+
+const porta = 8000;
+const multer = require('multer')
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/images/produtos')
+    },
+    filename: function (req, file, cb) {
+        mimetype = file.mimetype;
+        tipo = '';
+        if (mimetype == 'image/jpeg') {
+            tipo = '.jpeg';
+        } else if (mimetype == 'image/png') {
+            tipo = '.png';
+        }
+
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+        cb(null, file.fieldname + '-' + uniqueSuffix + tipo)
+    }
+})
+
+const upload = multer({ storage: storage })
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
 
 app.get('/', (req, res) => {
     (async () => {
         await fetch("http://localhost:9012/produtos")
-        .then(response => {
-            response.json().then((data) => {
+            .then(response => {
+                response.json().then((data) => {
 
-                produtos = data.produtos;
-                console.log(data)
+                    produtos = data.produtos;
+                    console.log(data)
+                });
+            }).catch(err => {
+                console.error('Failed retrieving information', err);
             });
-        }).catch(err => {
-            console.error('Failed retrieving information', err);
-        });
     })();
     console.log(req.cookies)
     res.send('Hello World, Sejam todos bem vindos ao primeiro Servidor Express')
@@ -133,21 +159,31 @@ app.get('/produtos', (req, res) => {
 
     (async () => {
         const p = await db.selectProdutos();
-        
+        //console.log(p)
+
         res.send({ produtos: p, email: req.cookies.email, gestor: req.cookies.gestor == 'true' ? true : false })
     })();
     //res.render('pages/produto/produtos', { produtos: pa, email: req.cookies.email ,gestor: req.cookies.gestor=='true' ? true : false })
 })
 
+
+async function fetchGet(url) {
+    return await fetch(url)
+        .then(response => response.json())
+        .catch(err => console.log(err));
+}
+
 app.get('/produto', (req, res) => {
 
     (async () => {
         //const p = await db.selectProdutos();
-        //const res = fetch('http://localhost:9012/produtos').then((data) => console.log(data))
-        
-        //res.send({ produtos: res, email: req.cookies.email, gestor: req.cookies.gestor == 'true' ? true : false })
+        const p = await fetchGet('http://localhost:9012/produto');
+        //console.log(p)
+
+        res.render('pages/produto/produtos', { produtos: p, email: req.cookies.email, gestor: req.cookies.gestor == 'true' ? true : false })
+        //res.send({ produtos: p, email: req.cookies.email, gestor: req.cookies.gestor == 'true' ? true : false })
     })();
-    res.render('pages/produto/produtos', { email: req.cookies.email, gestor: req.cookies.gestor == 'true' ? true : false })
+
 })
 
 
@@ -168,9 +204,39 @@ app.get('/produto/criar', (req, res) => {
     else {res.send('ACESSO NEGADO!')}
 })
 
+async function fetchPost(url, req, res) {
+    await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(req.body),
+        headers: { "Content-type": "application/json" }
+    })
+        .then(response => response.json())
+        .then(json => console.log(json))
+        .catch(err => console.log(err));
+}
+
 // POST -> Produto/Criar
-app.post('/produto/criar/post', (req, res) => {
+app.post('/produto/criar', upload.single('imagem'), (req, res) => {
     if (req.cookies.gestor == 'true') {
+
+        req.body.filename = req.file.filename;
+        //console.log(req.file, req.body);
+        //console.log(os.tmpdir())
+        console.log(req.file, req.body);
+        fetchPost("http://localhost:9012/produto/criar", req, res)
+            .then(res.redirect('/produto'))
+            .catch(res.render('Erro ao criar o Produto'))
+
+
+
+        //const responseJson = response.json();
+        //console.log(responseJson);
+        //res.send(JSON.stringify(req.body))
+
+
+
+        //res.redirect('/produto/criar')
+        /*
         (async () => {
             let nome = req.body.nome
             let categoria = req.body.categoria
@@ -182,8 +248,10 @@ app.post('/produto/criar/post', (req, res) => {
 
             res.redirect('/produto')
         })();
+*/
 
     } else {res.send('ACESSO NEGADO!')}
+
 })
 
 // GET -> Produto/Editar
@@ -202,18 +270,14 @@ app.get('/produto/editar/:p', (req, res) => {
 // POST -> Produto/Editar
 app.post('/produto/editar/post', (req, res) => {
     if (req.cookies.gestor == 'true') {
-        (async () => {
-            let id = req.body.id
-            let nome = req.body.nome
-            let categoria = req.body.categoria
-            let preco = req.body.valor
-            let estoque = req.body.estoque
-            let descricao = req.body.descricao
+        //req.body.filename = req.file.filename;
+        //console.log(req.file, req.body);
+        //console.log(os.tmpdir())
+        console.log(req.file, req.body);
+        fetchPost("http://localhost:9012/produto/editar", req, res)
+            .then(res.redirect('/produto'))
+            .catch(res.render('Erro ao criar o Produto'))
 
-            await db.updateProdutoID(id, nome, categoria, preco, estoque, descricao);
-
-            res.redirect('/produto')
-        })();
 
     } else {res.send('ACESSO NEGADO!')}
 })

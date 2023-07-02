@@ -77,15 +77,15 @@ async function selectProdutoID(id) {
     return res.rows;
 }
 
-async function insertProduto(nome, categoria, preco, estoque, descricao) {   
+async function insertProduto(nome, categoria, preco, estoque, descricao, filename) {  
     const client = await connect();
-    const res = await client.query(`INSERT INTO produtos (nome, categoria, preco, estoque, descricao, ativo) VALUES ('${nome}', '${categoria}', ${preco}, ${estoque}, '${descricao}', true)`);
+    const res = await client.query(`INSERT INTO produtos (nome, categoria, preco, estoque, descricao, ativo, filename) VALUES ('${nome}', '${categoria}', ${preco}, ${estoque}, '${descricao}', true, '${filename}')`);
     return res.rows;
 }
 
-async function updateProdutoID(id, nome, categoria, preco, estoque, descricao) {   
+async function updateProdutoID(id, nome, categoria, preco, estoque, descricao, filename) {   
     const client = await connect();
-    const res = await client.query(`UPDATE produtos SET nome = '${nome}', categoria = '${categoria}', preco = ${preco}, estoque = ${estoque}, descricao = '${descricao}' WHERE id = ${id}`);
+    const res = await client.query(`UPDATE produtos SET nome = '${nome}', categoria = '${categoria}', preco = ${preco}, estoque = ${estoque}, descricao = '${descricao}', filename = '${filename}' WHERE id = ${id}`);
     return res.rows;
 }
 
@@ -212,4 +212,5 @@ async function deleteVendaID(id) {
 
 
 
-module.exports = {selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateMetaVendedorID, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, selectVendasVendedorID, insertVenda, selectProdutosVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario, dadosGestor, updateGestor}
+module.exports = {connect,selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateMetaVendedorID, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, insertVenda, selectProdutosVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario}
+
