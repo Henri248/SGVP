@@ -30,30 +30,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>50,00</td>
-                                <td>10/05/2023 - 16:00h</td>
-                                <td class="crud">
-                                    <a href="/vendededor/ver"><img src="/images/icons/zoom_in_black_24dp.svg"
-                                            alt=""></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>50,00</td>
-                                <td>10/05/2023 - 16:00h</td>
-                                <td class="crud">
-                                    <a href="/vendededor/ver"><img src="/images/icons/zoom_in_black_24dp.svg"
-                                            alt=""></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>50,00</td>
-                                <td>10/05/2023 - 16:00h</td>
-                                <td class="crud">
-                                    <a href="/vendededor/ver"><img src="/images/icons/zoom_in_black_24dp.svg"
-                                            alt=""></a>
-                                </td>
-                            </tr>
+                            <% vendas.forEach(function(venda){%>
+                                <tr>
+                                    <td><%- venda.valor %></td>
+                                    <td><%- venda.data %></td>
+                                    <td class="crud">
+                                        <a href="/venda/ver/<%- venda.id %>"><img src="/images/icons/zoom_in_black_24dp.svg"
+                                                alt=""></a>
+                                        <% if(gestor) { %>
+                                        <a href="/venda/delete/<%- venda.id %>"><img src="/images/icons/clear_black_24dp.svg" alt=""></a>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                        </tbody>  
                     </table>
                 </div>
 

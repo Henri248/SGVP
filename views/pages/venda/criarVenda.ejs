@@ -1,34 +1,91 @@
 <%- contentFor('secao') %>
     <div class="form container">
         <h1><a href="/venda" class="button"><img src="/images/icons/arrow_back_white_24dp.svg" alt=""></a>  Nova venda</h1>
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" action="/venda/criar/post">
             <span>
             <label for="vendedor">Vendedor:</label>
             <select id="vendedor" name="vendedor">
-                <option value="a">00001 - Vendedor A</option>
-                <option value="b">00002 - Vendedor B</option>
-                <option value="c">00003 - Vendedor C</option>
+                <% if (gestor) { %>
+                <% vendedores.forEach(vendedor => { %>
+                <option value="<%- vendedor.id %>"><%- vendedor.id %> - <%- vendedor.nome %></option>
+                <% }); %>
+                <% } else { %>
+                    <option value="<%- vendedores.find(usuario => usuario.email == email).id %>"><%- vendedores.find(usuario => usuario.email == email).id %> - <%- vendedores.find(usuario => usuario.email === email).nome %></option>
+                <% }; %>
             </select>
             </span>
             <span>
-            <label for="produtos">Produtos:</label>
-                <span class="produtos">
-                    <select id="produtos" name="produto">
-                        <option value="a">00001 - Produto A - R$ 10,00</option>
-                        <option value="b">00002 - Produto B - R$ 20,00</option>
-                        <option value="c">00003 - Produto C - R$ 30,00</option>
-                    </select>
-                    <input type="number" id="quantidade" name="quantidade" value="1" required>
-                    <a href="#"><img src="/images/icons/clear_black_24dp.svg" alt=""></a>
-                </span>
-                <a href="#" style="text-align: center; margin-top: 5px;"><img src="/images/icons/add_circle_outline_blue_24dp.svg" alt=""></a>
+                <label for="cliente">Cliente:</label>
+                <select id="cliente" name="cliente">
+                    <% clientes.forEach(cliente => { %>
+                        <option value="<%- cliente.id %>"><%- cliente.id %> - <%- cliente.nome %></option>
+                    <% }); %>
+                </select>
+            </span>
+            <span>
+                <label for="produtos">Produtos:</label>
+                <div id="produtos_adicionados">
+                    <span class="produtos" id="produto1">
+                        <select class="produto_venda" id="produto" name="produto_venda" onchange="calcularValorTotal()">
+                            <% produtos.forEach(produto => { %>
+                                <option value="<%- produto.id %>"><%- produto.id %> - <%- produto.nome %> - <%- produto.preco %></option>
+                            <% }); %>
+                        </select>
+                        <input class="quantidade_produto_venda" type="number" id="quantidade" name="quantidade" value="1" oninput="calcularValorTotal()" min="1" required>
+                        <img src="/images/icons/clear_black_24dp.svg" alt="" onclick="removerProduto(1)">
+                    </span>
+                </div>
+                <a href="#" style="text-align: center; margin-top: 5px;" onclick="adicionarProduto()"><img src="/images/icons/add_circle_outline_blue_24dp.svg" alt=""></a>
             </span>
             <span>
             <label for="valor">Valor total:</label>
-            <input type="number" value="50.00" id="valor" name="valor" disabled required>
+            <input type="number" value="0" id="valor" name="valor" readonly>
             </span>
             <button type="submit">Confirmar venda</button>
             
           </form>
     </div>
     
+    <!-- JAVASCRIPT --------------------------------------------------- -->
+    <script>
+        var produtos = <%- JSON.stringify(produtos) %>;
+        var id_atual_produto = 1;
+
+        function calcularValorTotal() {
+            var produtos_venda = document.getElementsByClassName('produto_venda');
+            var quantidades_produtos_venda = document.getElementsByClassName('quantidade_produto_venda');
+
+            var valorTotal = document.getElementById('valor');
+            var soma = 0;
+            
+            for(var i = 0; i < produtos_venda.length; i++) {
+                soma += parseFloat(produtos.find(produto => produto.id == produtos_venda[i].value).preco) * parseFloat(quantidades_produtos_venda[i].value)
+            }
+            valorTotal.value = soma.toFixed(2);
+        }
+
+        function adicionarProduto() {
+            var produtos_adicionados = document.getElementById('produtos_adicionados');
+        
+            var produto = document.createElement('span');
+            produto.className = 'produtos';
+            id_atual_produto++;
+            produto.id = `produto${id_atual_produto}`;
+
+            produto.innerHTML = `<span class="produtos" id="produto${id_atual_produto}"> <select class="produto_venda" id="produto" name="produto_venda" onchange="calcularValorTotal()"> <% produtos.forEach(produto => { %> <option value="<%- produto.id %>"><%- produto.id %> - <%- produto.nome %> - <%- produto.preco %></option> <% }); %> </select> <input class="quantidade_produto_venda" type="number" id="quantidade" name="quantidade" value="1" oninput="calcularValorTotal()" min="1" required> <img src="/images/icons/clear_black_24dp.svg" alt="" onclick="removerProduto(${id_atual_produto})"> </span>`
+
+            produtos_adicionados.appendChild(produto);
+            calcularValorTotal();
+        }
+
+        function removerProduto(id) {
+            var produtos_adicionados = document.getElementById('produtos_adicionados');
+            if (produtos_adicionados.childElementCount > 1) {
+                var produto = produtos_adicionados.querySelector(`span#produto${id}`);
+                produto.remove();
+                calcularValorTotal();
+            }
+        }
+
+    </script>
+
