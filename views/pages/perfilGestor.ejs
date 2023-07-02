@@ -1,0 +1,36 @@
+<%- contentFor('secao') %>
+    <div class="perfil container" style="max-width: 400px;">
+            <div class="items-perfil-2 item-1">
+                <h2>Dados</h2>
+                <form method="post" action="/perfil/post">
+                    <div class="info">
+                        <p><label>Email: <input type="email" name="email" value="<%- usuario[0].email %>"></label></p>
+                        <p><label>Senha: <input type="password" name="senha" value="<%- usuario[0].senha %>"></label></p>
+                            <span id="buttons">
+                                <button type="submit" style="margin-top: 10px;">Atualizar</button>
+                            </span>
+                        </p>
+                    </div>
+                </form>
+            </div>
+    </div>
+
+    
+    <script>
+
+        function arternarVisualizacao(secao) {
+            var secoes = [...document.getElementsByClassName('perfil-2')];
+            var secao_alvo = [...document.getElementsByClassName(secao)];
+
+            var itens_menu = [...document.getElementsByClassName('secao-perfil')];
+            var item_alvo = document.getElementById(secao);
+            console.log(item_alvo);
+
+            secoes.forEach(s => s.style.display = 'none');
+            itens_menu.forEach(i => i.style.color = 'black');
+
+            secao_alvo.forEach(s => s.style.display = 'block');
+            item_alvo.style.color = 'white'
+
+        }
+    </script>
