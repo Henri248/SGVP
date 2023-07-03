@@ -35,11 +35,12 @@
                                 <td class="crud">
                                     <a href="/produto/ver/<%- produto.id %>"><img
                                             src="/images/icons/zoom_in_black_24dp.svg" alt=""></a>
-
+                                    <% if(gestor) { %>
                                     <a href="/produto/editar/<%- produto.id %>"><img
                                             src="/images/icons/edit_black_24dp.svg" alt=""></a>
                                     <a href="/produto/delete/<%- produto.id %>"><img
                                             src="/images/icons/clear_black_24dp.svg" alt=""></a>
+                                    <% } %>
 
 
 

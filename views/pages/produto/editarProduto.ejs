@@ -2,10 +2,10 @@
     <div class="form container">
         <h1><a href="/produto" class="button"><img src="/images/icons/arrow_back_white_24dp.svg"
                     alt=""></a> Editar <%- produto[0].nome %></h1>
-        <form method="post" action="/produto/editar/post">
+        <form method="POST" action="/produto/editar" enctype="multipart/form-data">
             <span>
                 <label for="id">ID:</label>
-                <input type="number" id="id" name="id" value="<%- produto[0].id %>">
+                <input type="number" id="id" name="id" value="<%- produto[0].id %>" readonly>
             </span>
             <span>
                 <label for="nome">Nome:</label>

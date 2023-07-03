@@ -1,10 +1,16 @@
 <%- contentFor('secao') %>
     <div class="table container">
         <h1>Vendedores</h1>
+        <div style="display: flex; justify-content: space-between;">
         <a href="/vendedor/criar" class="button create">
             <img src="/images/icons/add_circle_outline_white_24dp.svg" alt="">
             <p>Cadastrar novo vendedor</p>
         </a>
+        <a href="/vendedor/resetar" class="button create" style="background-color: #BF251C; justify-content: center; width: auto;">
+            <img src="/images/icons/settings_backup_restore_white_24dp.svg" alt="">
+            <p>Resetar metas</p>
+        </a>
+        </div>
         <table>
             <thead>
                 <tr>

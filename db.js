@@ -41,14 +41,14 @@ async function validarUsuario(email, senha) {
 
 async function dadosUsuario(email) {
     const client = await connect();
-    const res = await client.query(`SELECT vd.id, vd.nome, u.email, u.senha, vd.telefone, vd.endereco, vd.meta, vd.meta_atual FROM (SELECT * FROM vendedores WHERE email = '${email}') vd INNER JOIN usuarios u ON vd.email = u.email`);
+    const res = await client.query(`SELECT vd.id, vd.nome, u.email, u.senha, vd.telefone, vd.endereco, vd.meta, vd.meta_atual, vd.filename FROM (SELECT * FROM vendedores WHERE email = '${email}') vd INNER JOIN usuarios u ON vd.email = u.email`);
     return res.rows;
 }
 
-async function updateUsuario(email, nome, novo_email, senha, telefone, endereco) {
+async function updateUsuario(email, nome, novo_email, senha, telefone, endereco, filename) {
     const client = await connect();
     const res = await client.query(`UPDATE usuarios SET email = '${novo_email}', senha = '${senha}' WHERE email = '${email}'`);
-    client.query(`UPDATE vendedores SET nome = '${nome}', email = '${novo_email}', telefone = '${telefone}', endereco = '${endereco}' WHERE email = '${email}'`);
+    client.query(`UPDATE vendedores SET nome = '${nome}', email = '${novo_email}', telefone = '${telefone}', endereco = '${endereco}', filename = '${filename}' WHERE email = '${email}'`);
     return res.rows;
 }
 
@@ -108,15 +108,21 @@ async function selectVendedorID(id) {
     return res.rows;
 }
 
-async function insertVendedor(nome, email, telefone, endereco, meta, meta_atual) {   
+async function insertVendedor(nome, email, telefone, endereco, meta, meta_atual, filename) {   
     const client = await connect();
-    const res = await client.query(`INSERT INTO vendedores (nome, email, telefone, endereco, meta, meta_atual, ativo) VALUES ('${nome}', '${email}', '${telefone}', '${endereco}', ${meta}, ${meta_atual}, true)`);
+    const res = await client.query(`INSERT INTO vendedores (nome, email, telefone, endereco, meta, meta_atual, filename, ativo) VALUES ('${nome}', '${email}', '${telefone}', '${endereco}', ${meta}, ${meta_atual}, '${filename}', true)`);
     return res.rows;
 }
 
 async function updateMetaVendedorID(id, meta, meta_atual) {   
     const client = await connect();
     const res = await client.query(`UPDATE vendedores SET meta = ${meta}, meta_atual = ${meta_atual} WHERE id = ${id}`);
+    return res.rows;
+}
+
+async function resetMetaVendedores() {   
+    const client = await connect();
+    const res = await client.query(`UPDATE vendedores SET meta_atual = 0`);
     return res.rows;
 }
 
@@ -200,8 +206,12 @@ async function selectProdutosVenda(id_venda) {
 
 async function insertProdutoVenda(id_venda, id_produto, quantidade) {   
     const client = await connect();
-    const res = await client.query(`INSERT INTO produtos_vendas (id_venda, id_produto, quantidade) VALUES (${id_venda}, ${id_produto}, ${quantidade})`);
-    return res.rows;
+    try {
+        const res = await client.query(`INSERT INTO produtos_vendas (id_venda, id_produto, quantidade) VALUES (${id_venda}, ${id_produto}, ${quantidade})`);
+        return res.rows;
+    } catch (err) {
+        deleteVendaID(id_venda);
+    }
 }
 
 async function deleteVendaID(id) {   
@@ -212,5 +222,5 @@ async function deleteVendaID(id) {
 
 
 
-module.exports = {connect,selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateMetaVendedorID, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, insertVenda, selectProdutosVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario}
+module.exports = {connect,selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateMetaVendedorID, resetMetaVendedores, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, insertVenda, selectProdutosVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario, dadosGestor, updateGestor, selectVendasVendedorID}
 

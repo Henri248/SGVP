@@ -9,7 +9,8 @@ CREATE TABLE produtos (
 	preco decimal(10,2) NOT NULL,
 	estoque integer NOT NULL CHECK (estoque >= 0),
 	descricao varchar(200),
-	ativo boolean NOT NULL
+	ativo boolean NOT NULL,
+	filename varchar(255)
 );
 
 CREATE TABLE vendedores (
@@ -20,7 +21,8 @@ CREATE TABLE vendedores (
 	endereco varchar(200),
 	meta decimal(10,2) CHECK (meta >=0) NOT NULL,
 	meta_atual decimal(10,2),
-	ativo boolean
+	ativo boolean,
+	filename varchar(255)
 );
 
 CREATE TABLE usuarios (
@@ -55,84 +57,123 @@ CREATE TABLE produtos_vendas (
 	FOREIGN KEY (id_produto) REFERENCES produtos (id)
 );
 
+
+
+
+
+
 -------------------------------------------------------------------------
 
 --ALIMENTAR TABELAS
 
 INSERT INTO produtos (nome, categoria, preco, estoque, descricao, ativo)
 VALUES
-    ('Produto 1', 'Categoria A', 10.99, 100, 'Descrição do Produto 1', true),
-    ('Produto 2', 'Categoria B', 19.99, 50, 'Descrição do Produto 2', true),
-    ('Produto 3', 'Categoria A', 5.99, 200, 'Descrição do Produto 3', true),
-    ('Produto 4', 'Categoria C', 8.50, 150, 'Descrição do Produto 4', true),
-    ('Produto 5', 'Categoria B', 12.75, 80, 'Descrição do Produto 5', true),
-    ('Produto 6', 'Categoria A', 7.25, 120, 'Descrição do Produto 6', true),
-    ('Produto 7', 'Categoria B', 14.99, 90, 'Descrição do Produto 7', true),
-    ('Produto 8', 'Categoria C', 9.99, 180, 'Descrição do Produto 8', true),
-    ('Produto 9', 'Categoria A', 6.50, 70, 'Descrição do Produto 9', false),
-    ('Produto 10', 'Categoria B', 11.25, 110, 'Descrição do Produto 10', true);
+  ('Camiseta Listrada', 'Vestuário', 29.99, 50, 'Camiseta listrada de algodão', true),
+  ('Tênis Esportivo', 'Calçados', 79.99, 30, 'Tênis esportivo confortável para corrida', true),
+  ('Colar de Prata', 'Acessórios', 49.99, 20, 'Colar de prata com pingente delicado', true),
+  ('Câmera Digital', 'Eletrônicos', 249.99, 10, 'Câmera digital de alta resolução', true),
+  ('Livro de Romance', 'Livros', 19.99, 100, 'Romance emocionante de um autor renomado', true),
+  ('Bolsa de Couro', 'Acessórios', 89.99, 15, 'Bolsa elegante de couro legítimo', true),
+  ('Smartphone Android', 'Eletrônicos', 499.99, 10, 'Smartphone com tela grande e câmera de alta qualidade', true),
+  ('Chocolates Variados', 'Alimentos', 9.99, 200, 'Caixa com chocolates sortidos para presente', true),
+  ('Fone de Ouvido Bluetooth', 'Eletrônicos', 39.99, 50, 'Fone de ouvido sem fio com ótima qualidade de som', true),
+  ('Camisa Social', 'Vestuário', 49.99, 30, 'Camisa social elegante para ocasiões especiais', true);
 	
 INSERT INTO usuarios (email, senha, gestor)
 VALUES
-	('vendedor1@example.com', 'senha1', false),
-    ('vendedor2@example.com', 'senha2', false),
-	('vendedor3@example.com', 'senha3', false),
-	('vendedor4@example.com', 'senha4', false),
-	('vendedor5@example.com', 'senha5', false),
-	('vendedor6@example.com', 'senha6', false),
-	('vendedor7@example.com', 'senha7', false),
-	('vendedor8@example.com', 'senha8', false),
-	('vendedor9@example.com', 'senha9', false),
-	('gestor@example.com', '12345', true);
+	('gestor@example.com', '12345', true),
+	('john.doe@example.com', '123', false),
+  ('jane.smith@example.com', '123', false),
+  ('mike.wilson@example.com', '123', false),
+  ('emily.johnson@example.com', '123', false),
+  ('david.brown@example.com', '123', false),
+  ('sarah.williams@example.com', '123', false),
+  ('alexander.davis@example.com', '123', false),
+  ('olivia.martin@example.com', '123', false),
+  ('ethan.moore@example.com', '123', false),
+  ('ava.jackson@example.com', '123', false);
+	
 	
 
 INSERT INTO vendedores (nome, email, telefone, endereco, meta, meta_atual, ativo)
 VALUES
-    ('Vendedor 1', 'vendedor1@example.com', '123456789', 'Endereço 1', 1000.00, 500.00, true),
-    ('Vendedor 2', 'vendedor2@example.com', '987654321', 'Endereço 2', 1500.00, 1200.00, true),
-    ('Vendedor 3', 'vendedor3@example.com', '555555555', 'Endereço 3', 2000.00, 1800.00, true),
-    ('Vendedor 4', 'vendedor4@example.com', '444444444', 'Endereço 4', 1200.00, 900.00, true),
-    ('Vendedor 5', 'vendedor5@example.com', '777777777', 'Endereço 5', 1800.00, 1500.00, true),
-    ('Vendedor 6', 'vendedor6@example.com', '111111111', 'Endereço 6', 2500.00, 2000.00, true),
-    ('Vendedor 7', 'vendedor7@example.com', '222222222', 'Endereço 7', 3000.00, 2800.00, true),
-    ('Vendedor 8', 'vendedor8@example.com', '999999999', 'Endereço 8', 1500.00, 1300.00, true),
-    ('Vendedor 9', 'vendedor9@example.com', '666666666', 'Endereço 9', 2200.00, 1900.00, true);	
+    ('John Doe', 'john.doe@example.com', '1234567890', 'Rua A, 123', 1500, 0, true),
+  ('Jane Smith', 'jane.smith@example.com', '9876543210', 'Rua B, 456', 1500, 0, true),
+  ('Mike Wilson', 'mike.wilson@example.com', '5555555555', 'Rua C, 789', 1500, 0, true),
+  ('Emily Johnson', 'emily.johnson@example.com', '9999999999', 'Rua D, 789', 1500, 0, true),
+  ('David Brown', 'david.brown@example.com', '1111111111', 'Rua E, 987', 1500, 0, true),
+  ('Sarah Williams', 'sarah.williams@example.com', '2222222222', 'Rua F, 654', 1500, 0, true),
+  ('Alexander Davis', 'alexander.davis@example.com', '3333333333', 'Rua G, 321', 1500, 0, true),
+  ('Olivia Martin', 'olivia.martin@example.com', '4444444444', 'Rua H, 654', 1500, 0, true),
+  ('Ethan Moore', 'ethan.moore@example.com', '7777777777', 'Rua I, 987', 1500, 0, true),
+  ('Ava Jackson', 'ava.jackson@example.com', '8888888888', 'Rua J, 123', 1500, 0, true);
 	
 INSERT INTO clientes (nome, email, telefone, endereco)
 VALUES
-    ('Cliente 1', 'cliente1@example.com', '123456789', 'Endereço 1'),
-    ('Cliente 2', 'cliente2@example.com', '987654321', 'Endereço 2'),
-    ('Cliente 3', 'cliente3@example.com', '555555555', 'Endereço 3'),
-    ('Cliente 4', 'cliente4@example.com', '444444444', 'Endereço 4'),
-    ('Cliente 5', 'cliente5@example.com', '777777777', 'Endereço 5'),
-    ('Cliente 6', 'cliente6@example.com', '111111111', 'Endereço 6'),
-    ('Cliente 7', 'cliente7@example.com', '222222222', 'Endereço 7'),
-    ('Cliente 8', 'cliente8@example.com', '999999999', 'Endereço 8'),
-    ('Cliente 9', 'cliente9@example.com', '666666666', 'Endereço 9'),
-    ('Cliente 10', 'cliente10@example.com', '888888888', 'Endereço 10');
+    ('Maria Silva', 'maria.silva@example.com', '1234567890', 'Rua A, 123'),
+  ('José Santos', 'jose.santos@example.com', '9876543210', 'Rua B, 456'),
+  ('Ana Oliveira', 'ana.oliveira@example.com', '5555555555', 'Rua C, 789'),
+  ('Pedro Souza', 'pedro.souza@example.com', '9999999999', 'Rua D, 789'),
+  ('Carla Almeida', 'carla.almeida@example.com', '1111111111', 'Rua E, 987'),
+  ('Mariana Lima', 'mariana.lima@example.com', '2222222222', 'Rua F, 654'),
+  ('Rafael Costa', 'rafael.costa@example.com', '3333333333', 'Rua G, 321'),
+  ('Sandra Fernandes', 'sandra.fernandes@example.com', '4444444444', 'Rua H, 654'),
+  ('Daniel Pereira', 'daniel.pereira@example.com', '7777777777', 'Rua I, 987'),
+  ('Patricia Santos', 'patricia.santos@example.com', '8888888888', 'Rua J, 123');
 	
 
 INSERT INTO vendas (id_vendedor, id_cliente, data)
 VALUES 
-    (1, 1, '2023-06-01'),
-    (2, 3, '2023-06-02'),
-    (3, 2, '2023-06-03'),
-    (1, 4, '2023-06-04'),
-    (2, 5, '2023-06-05'),
-    (9, 6, NOW());
+  (1, 1, NOW() - INTERVAL '14 days'),
+  (2, 3, NOW() - INTERVAL '13 days'),
+  (1, 2, NOW() - INTERVAL '12 days'),
+  (4, 5, NOW() - INTERVAL '11 days'),
+  (3, 6, NOW() - INTERVAL '10 days'),
+  (2, 4, NOW() - INTERVAL '9 days'),
+  (3, 7, NOW() - INTERVAL '8 days'),
+  (5, 9, NOW() - INTERVAL '7 days'),
+  (4, 10, NOW() - INTERVAL '6 days'),
+  (5, 8, NOW() - INTERVAL '5 days'),
+  (7, 1, NOW() - INTERVAL '4 days'),
+  (6, 2, NOW() - INTERVAL '3 days'),
+  (8, 4, NOW() - INTERVAL '2 days'),
+  (9, 6, NOW() - INTERVAL '1 day'),
+  (10, 9, NOW());
 
 
 INSERT INTO produtos_vendas (id_venda, id_produto, quantidade)
 VALUES 
 	(1, 1, 2),
-	(1, 2, 1),
-	(2, 4, 1),
-	(3, 1, 1),
-	(3, 2, 1),
-	(3, 3, 1),
-	(4, 6, 1),
-	(5, 2, 4),
-	(6, 9, 2);
+  (1, 2, 3),
+  (2, 2, 1),
+  (2, 5, 2),
+  (3, 3, 3),
+  (3, 6, 1),
+  (4, 3, 1),
+  (4, 7, 3),
+  (5, 4, 2),
+  (5, 8, 1),
+  (6, 4, 3),
+  (6, 9, 2),
+  (7, 5, 1),
+  (7, 10, 3),
+  (8, 6, 2),
+  (8, 1, 1),
+  (9, 7, 1),
+  (9, 2, 2),
+  (10, 8, 3),
+  (10, 3, 1),
+  (11, 9, 2),
+  (11, 4, 2),
+  (12, 10, 1),
+  (12, 5, 3),
+  (13, 1, 2),
+  (13, 6, 1),
+  (14, 2, 3),
+  (14, 7, 1),
+  (15, 3, 1),
+  (15, 8, 2);
+	
 	
 -----------------------------------------------------------------------------
 
@@ -224,6 +265,12 @@ CREATE TRIGGER criar_usuario
 AFTER INSERT ON vendedores
 FOR EACH ROW
 EXECUTE FUNCTION criar_usuario();
+
+
+
+
+
+
 
 
 
