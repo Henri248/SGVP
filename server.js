@@ -411,10 +411,15 @@ app.get('/vendedor/delete/:id', (req, res) => {
     } else {res.send('ACESSO NEGADO!')}
 })
 
+// GET -> Vendedor/resetar
+app.get('/vendedor/resetar', (req, res) => {
+    if (req.cookies.gestor == 'true') {
+            
+        fetchGet(`http://localhost:9012/vendedor/resetar`)
+        res.redirect('/vendedor')
 
-
-
-
+    } else {res.send('ACESSO NEGADO!')}
+})
 
 // Inicio do Servidor
 app.listen(porta, () => {

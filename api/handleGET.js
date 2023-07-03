@@ -98,6 +98,9 @@ async function handleGET(req, res) {
                         const vd = await db.selectVendasVendedorID(partes_url[3]);
                         res.end(JSON.stringify(vd));
                     }
+                    else if (partes_url[2] == "resetar"){
+                        await db.resetMetaVendedores();
+                    }
                     
                 })();
             } 

@@ -120,6 +120,12 @@ async function updateMetaVendedorID(id, meta, meta_atual) {
     return res.rows;
 }
 
+async function resetMetaVendedores() {   
+    const client = await connect();
+    const res = await client.query(`UPDATE vendedores SET meta_atual = 0`);
+    return res.rows;
+}
+
 async function activeVendedorID(id, ativo) {   
     const client = await connect();
     const res = await client.query(`UPDATE vendedores SET ativo = ${ativo}  WHERE id = ${id}`);
@@ -216,5 +222,5 @@ async function deleteVendaID(id) {
 
 
 
-module.exports = {connect,selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateMetaVendedorID, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, insertVenda, selectProdutosVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario, dadosGestor, updateGestor, selectVendasVendedorID}
+module.exports = {connect,selectProdutos, selectProdutoID, insertProduto, updateProdutoID, activeProdutoID, selectVendedores, selectVendedorID, insertVendedor, updateMetaVendedorID, resetMetaVendedores, activeVendedorID, selectClientes, selectClienteID, insertCliente, updateClienteID, deleteClienteID, selectVendas, selectVendaID, insertVenda, selectProdutosVenda, insertProdutoVenda, deleteVendaID, validarUsuario, dadosUsuario, updateUsuario, dadosGestor, updateGestor, selectVendasVendedorID}
 
