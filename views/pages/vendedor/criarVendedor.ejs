@@ -1,7 +1,7 @@
 <%- contentFor('secao') %>
     <div class="form container">
         <h1><a href="/vendedor" class="button"><img src="/images/icons/arrow_back_white_24dp.svg" alt=""></a> Novo vendedor</h1>
-        <form method="POST" action="/vendedor/criar/post">
+        <form method="POST" action="/vendedor/criar" enctype="multipart/form-data">
             <span>
                 <label for="nome">Nome:</label>
                 <input type="text" id="nome" name="nome" required>

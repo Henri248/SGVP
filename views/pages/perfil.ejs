@@ -2,7 +2,9 @@
     <div class="perfil container">
         <div class="perfil-1">
             <div class="items-perfil-1">
-                <div class="avatar"><img style="margin: 0 auto;" src="./public/images/icons/avatar.svg" alt=""></div>
+                <div>
+                    <img src="/images/produtos/<%- usuario[0].filename %>" style="max-width: 100%; margin: 0 auto;" alt="">
+                </div>
                 <div class="items-perfil">
                     <ul>
                         <li class="item-perfil">
@@ -22,8 +24,9 @@
         <div class="perfil-2 dados">
             <div class="items-perfil-2 item-1">
                 <h2>Dados</h2>
-                <form method="post" action="/perfil/post">
+                <form method="POST" action="/perfil/vendedor" enctype="multipart/form-data">
                     <div class="info">
+                        <p><label>ID: <input type="number" id="id" name="id" value="<%- usuario[0].id %>" readonly></label></p>
                         <p><label>Email: <input type="email" name="email" value="<%- usuario[0].email %>"></label></p>
                         <p><label>Senha: <input type="password" name="senha" value="<%- usuario[0].senha %>"></label></p>
                         <p><label>Nome: <input type="text" name="nome" value="<%- usuario[0].nome %>"></label></p>

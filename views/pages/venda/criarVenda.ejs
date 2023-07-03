@@ -39,7 +39,7 @@
             </span>
             <span>
             <label for="valor">Valor total:</label>
-            <input type="number" value="0" id="valor" name="valor" readonly>
+            <input type="number" value="<% try { %><%- produtos[0].preco %><% } catch(x){ %>0<% }; %>" id="valor" name="valor" readonly>
             </span>
             <button type="submit">Confirmar venda</button>
             

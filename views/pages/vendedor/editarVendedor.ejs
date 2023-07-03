@@ -2,10 +2,10 @@
     <div class="form container">
         <h1><a href="/vendedor" class="button"><img src="/images/icons/arrow_back_white_24dp.svg"
                     alt=""></a> Editar <%- vendedor[0].nome %></h1>
-        <form method="post" action="/vendedor/editar/post">
+        <form method="POST" action="/vendedor/editar">
             <span>
                 <label for="id">ID:</label>
-                <input type="number" id="id" name="id" value="<%- vendedor[0].id %>">
+                <input type="number" id="id" name="id" value="<%- vendedor[0].id %>" readonly>
             </span>
             <span>
                 <label for="meta">Meta (R$):</label>
